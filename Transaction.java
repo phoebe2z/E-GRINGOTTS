@@ -33,7 +33,7 @@ public class Transaction {
 
     public Date getDateOfTrans() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yy");
-        return dateOfTrans;
+        return dateFormat.format(dateOfTrans);
     }
 
 
