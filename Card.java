@@ -78,7 +78,7 @@ public class Card {
         if (currentCalendar.after(expiryDate)) {
             expiryCalendar.setTime(expiryDate);
 //            Update expiry date by 20 years
-            expiryCalendar.add(Calendar.YEAR, 5);
+            expiryCalendar.add(Calendar.YEAR, 20);
             expiryDate = expiryCalendar.getTime();
         } else {
             System.out.println("Your card will expire for a long time so don't need to update it yet.");
