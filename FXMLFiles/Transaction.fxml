@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane fx:id="BasePanel" prefHeight="400.0" prefWidth="420.0" styleClass="transaction_container" stylesheets="@../CSSClass/TransactionPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringgots.TransactionController">
+   <children>
+      <Text fx:id="TransText" layoutX="146.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Transactions">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="12.0" />
+         </font>
+      </Text>
+      <VBox fx:id="Panel" layoutX="24.0" layoutY="50.0" prefHeight="330.0" prefWidth="370.0" styleClass="panel">
+         <children>
+            <Text fx:id="AvailableText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="Available Amount For Transaction:">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="75.0" right="70.0" top="8.0" />
+               </VBox.margin>
+            </Text>
+            <AnchorPane fx:id="CurrencyPane" prefHeight="89.0" prefWidth="367.0">
+               <children>
+                  <VBox fx:id="CurrencyVbox" prefHeight="70.0" prefWidth="367.0" />
+                  <HBox fx:id="CurrencyHbox" prefHeight="70.0" prefWidth="370.0">
+                     <children>
+                        <AnchorPane fx:id="currencyOnePane" prefHeight="200.0" prefWidth="123.0">
+                           <children>
+                              <Text fx:id="AmountOneText" layoutX="10.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="1000000 " AnchorPane.leftAnchor="30.0" />
+                              <Text fx:id="CurrencyOneText" layoutX="42.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="Knutt" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="CurrencyTwoPane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="123.0">
+                           <children>
+                              <Text fx:id="AmountTwoText" layoutX="33.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="1000000 " />
+                              <Text fx:id="CurrencyTwoText" layoutX="45.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="Sickle" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="CurrencyThreePane" layoutX="133.0" layoutY="10.0" prefHeight="200.0" prefWidth="123.0">
+                           <children>
+                              <Text fx:id="CurrencyThreeText" layoutX="39.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="Galleon" />
+                              <Text fx:id="AmountThreeText" layoutX="33.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="1000000 " />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox layoutY="57.0" prefHeight="44.0" prefWidth="367.0">
+                     <children>
+                        <Text fx:id="FromText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="From:">
+                           <HBox.margin>
+                              <Insets left="80.0" top="15.0" />
+                           </HBox.margin>
+                        </Text>
+                        <ChoiceBox fx:id="FromChoiceBox" prefHeight="25.0" prefWidth="175.0">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets left="25.0" top="10.0" />
+                           </HBox.margin>
+                        </ChoiceBox>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+            <HBox fx:id="FillHbox" prefHeight="121.0" prefWidth="367.0">
+               <children>
+                  <VBox fx:id="ValueVbox" prefHeight="139.0" prefWidth="183.0">
+                     <children>
+                        <Text fx:id="AmountText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="Amount:">
+                           <VBox.margin>
+                              <Insets left="60.0" top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="AmountField" prefHeight="25.0" prefWidth="106.0">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" top="5.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Text fx:id="CurrencyText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="Currency:">
+                           <VBox.margin>
+                              <Insets left="60.0" top="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <ChoiceBox fx:id="CurrencyChoiceBox" prefWidth="150.0">
+                           <VBox.margin>
+                              <Insets left="25.0" right="25.0" top="5.0" />
+                           </VBox.margin>
+                        </ChoiceBox>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="ReceiverVbox" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="184.0">
+                     <children>
+                        <Text fx:id="ToText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="To:">
+                           <VBox.margin>
+                              <Insets left="80.0" top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="ToField" prefHeight="25.0" prefWidth="106.0">
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Text fx:id="CategoryText" layoutX="90.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="Category:">
+                           <VBox.margin>
+                              <Insets left="60.0" top="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <ChoiceBox fx:id="CategoryChoiceBox" prefWidth="150.0">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" top="5.0" />
+                           </VBox.margin>
+                        </ChoiceBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox fx:id="AdditionalHbox" prefHeight="36.0" prefWidth="367.0">
+               <children>
+                  <Text fx:id="AdditionalText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Basic_text" text="Additional Notes:">
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextField fx:id="AdditionalFields" prefHeight="25.0" prefWidth="229.0">
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="39.0" prefWidth="367.0">
+               <children>
+                  <Button fx:id="ConfirmBtn" mnemonicParsing="false" onAction="#Confirm_Btn" prefHeight="25.0" prefWidth="102.0" styleClass="button_regular" text="Confirm">
+                     <HBox.margin>
+                        <Insets left="25.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="ResetBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#Reset_Btn" styleClass="button_regular" text="Reset Field">
+                     <HBox.margin>
+                        <Insets left="120.0" right="20.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
