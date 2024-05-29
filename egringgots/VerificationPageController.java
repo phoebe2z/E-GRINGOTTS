@@ -4,7 +4,7 @@ package egringgots;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-
+import Database.Database;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -70,19 +70,41 @@ public class VerificationPageController implements Initializable {
     }
 
     @FXML
-    void NextBtn(ActionEvent event) {    
-        if(Model.getInstance().getViewFactory().getLoginAccountType()== AccountType.USER){
-            Model.getInstance().getViewFactory().showUserWindow();
+    void NextBtn(ActionEvent event) {
+
+        int userId = Model.getInstance().getUserId();
+        System.out.println("UserId veri page: " + userId);
+        if (Model.getInstance().getViewFactory().getLoginAccountType() == AccountType.USER) {
+            if (Database.validateSafetyPin(PinField.getText(), userId)) {
+                Model.getInstance().getViewFactory().showUserWindow();
+                Stage stage = (Stage) VerificationPanel.getScene().getWindow();
+                Model.getInstance().getViewFactory().closeStage(stage);
+            } else {
+                alertMessage();
+            }
         } else {
-            Model.getInstance().getViewFactory().showAdminWindow();
+            if (Database.validateAdminSafetyPin(PinField.getText(), userId)) {
+                Model.getInstance().getViewFactory().showAdminWindow();
+                Stage stage = (Stage) VerificationPanel.getScene().getWindow();
+                Model.getInstance().getViewFactory().closeStage(stage);
+            } else {
+                alertMessage();
+            }
         }
-        Stage stage = (Stage) VerificationPanel.getScene().getWindow();
-        Model.getInstance().getViewFactory().closeStage(stage);
+        
+    }
+        
+    public void alertMessage(){
+        alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Wrong pin number!");
+        alert.showAndWait();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    
     }    
     
 }

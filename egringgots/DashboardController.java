@@ -119,12 +119,12 @@ public class DashboardController implements Initializable{
 
     @FXML
     void Transfer_Btn(ActionEvent event) {
-
+        Model.getInstance().getViewFactory().getUserSelectedMenuItem().set(UserMenuOption.TRANSFER);
     }
 
     @FXML
     void View_Btn(ActionEvent event) {
-
+        
     }
     
     @FXML

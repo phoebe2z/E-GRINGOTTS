@@ -7,6 +7,7 @@ package egringgots;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  *
@@ -70,17 +72,23 @@ public class UserMenuController implements Initializable{
 
     @FXML
     void Exchange_Btn(ActionEvent event) {
-
+        Model.getInstance().getViewFactory().getUserSelectedMenuItem().set(UserMenuOption.EXCHANGE);
     }
 
     @FXML
     void Logout_Btn() {
+        Account account = SessionManager.getCurrentUser();
+        account.clearUserData();
+        SessionManager.clearSession();
         Model.getInstance().getViewFactory().getUserSelectedMenuItem().set(UserMenuOption.LOGOUT);
+        Stage stage = (Stage) MenuPanel.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeStage(stage);
     }
 
     @FXML
     void Profile_Btn() {
         Model.getInstance().getViewFactory().getUserSelectedMenuItem().set(UserMenuOption.PROFILE);
+        
     }
 
     @FXML

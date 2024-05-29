@@ -46,6 +46,7 @@ public class TransferController implements Initializable {
 
     @FXML
     void Back_Btn(ActionEvent event) {
+        Model.getInstance().getViewFactory().getUserSelectedMenuItem().set(UserMenuOption.DASHBOARD);
 
     }
 

@@ -4,216 +4,211 @@
  */
 package egringgots;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import Database.Constant;
+import java.util.List;
 
-/**
- *
- * @author User
- */
-public class Account<E> {
-    private String userId;
-    private String name, username, password, email, DOB, address;
-    private long phoneNum, safetyPin, point;
-    private String[] idList, nameList, usernameList, passwordList, emailList, DOBList, addressList, phoneList, pinList, pointList;
-    final String fileName = "src/user/usersData.xlsx";
-    int userIndex;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javafx.beans.property.IntegerProperty;
+
+import javafx.beans.property.SimpleIntegerProperty;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+
+
+public class Account<T> {
+    private IntegerProperty id = new SimpleIntegerProperty();
+    private StringProperty name = new SimpleStringProperty();
+    private StringProperty dob = new SimpleStringProperty();
+    private StringProperty mobileNum = new SimpleStringProperty();
+    private StringProperty email = new SimpleStringProperty();
+    private StringProperty address = new SimpleStringProperty();
+    private StringProperty username = new SimpleStringProperty();
+    private StringProperty password = new SimpleStringProperty();
+    private StringProperty safetyPin = new SimpleStringProperty();
+
     
-
     public Account() {
-        updateAccount();
+
     }
-   
-    
-    public boolean createAccount(String userId, String name, String username, String password, String email, String DOB, String address, long phoneNum, long safetyPin, long point){
-        for (int i = 0; i < usernameList.length; i++){
-            if (username.equals(usernameList[i]) || email.equals(emailList[i])) {
-                return false;
-            }
-        }
-        
-            try
-        {
-            FileInputStream fis = new FileInputStream(new File(fileName));
-            XSSFWorkbook wb = new XSSFWorkbook(fis);
-            XSSFSheet sheet = wb.getSheetAt(0);
-            
-            Row row = sheet.createRow(sheet.getLastRowNum() + 1);
-            row.createCell(0).setCellValue(userId);
-            row.createCell(1).setCellValue(name);
-            row.createCell(2).setCellValue(username);  
-            row.createCell(3).setCellValue(password);          
-            row.createCell(4).setCellValue(email);
-            row.createCell(5).setCellValue(DOB);
-            row.createCell(6).setCellValue(address);
-            row.createCell(7).setCellValue(phoneNum);
-            row.createCell(8).setCellValue(safetyPin);
-            row.createCell(9).setCellValue("0");
+ 
+    public void populateDataFromUserDB(int userId) {
+        String query = "SELECT * FROM " + Constant.DB_USERS_TABLE_NAME + " WHERE USERSID = ?";
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            
-            try (FileOutputStream fileOut = new FileOutputStream(fileName))
-            {
-                wb.write(fileOut);
-            }
-        }
-        catch (FileNotFoundException ex)
-        {
-            System.out.println(ex);
-        }
-        catch (IOException ioe)
-        {
-            System.out.println(ioe);
-        }
-            updateAccount();
-            UsernameEmailCheck(username, password);
-        return true;
-    }
-    
-    public void updateAccount(){
-    
-        try 
-        {
-            FileInputStream fis = new FileInputStream(new File(fileName));
-            XSSFWorkbook wb = new XSSFWorkbook(fis);
-            XSSFSheet sheet = wb.getSheetAt(0);
-            
-            int lastIndex = sheet.getLastRowNum();
-            usernameList = new String[lastIndex];
-            emailList = new String[lastIndex];
-            passwordList = new String[lastIndex];
-            
-            for(int i = 0; i < lastIndex; i++)
-            {
-                Row row = sheet.getRow(i + 1);
-                Cell cell = row.getCell(0);
-                idList[i] = cell.getStringCellValue();
-                cell = row.getCell(1);
-                nameList[i] = cell.getStringCellValue();
-                cell = row.getCell(2);
-                usernameList[i] = cell.getStringCellValue();
-                cell = row.getCell(3);
-                cell.setCellType(CellType.STRING);
-                passwordList[i] = cell.getStringCellValue();
-                cell = row.getCell(4);
-                emailList[i] = cell.getStringCellValue();
-                cell = row.getCell(5);
-                DOBList[i] = cell.getStringCellValue();
-                cell = row.getCell(6);
-                addressList[i] = cell.getStringCellValue();
-                cell = row.getCell(7);
-                phoneList[i] = cell.getStringCellValue();
-                cell = row.getCell(8);
-                pinList[i] = cell.getStringCellValue();
-                cell = row.getCell(9);
-                pointList[i] = cell.getStringCellValue();
-            }
-        } 
-        catch (FileNotFoundException ex) 
-        {
-            System.out.println(ex);
-        } 
-        catch (IOException ioe) 
-        {
-            System.out.println(ioe);
-        }
-    }
-
-    private boolean UsernameEmailCheck(String username, String password) {
-            for (int i = 0; i < usernameList.length; i++)
-        {
-            if ((username.equals(usernameList[i]) || username.equals(emailList[i])) && password.equals(passwordList[i]))
-            {
-                try 
-                {
-                    FileInputStream fis = new FileInputStream(new File("src/user/usersData.xlsx"));
-                    XSSFWorkbook wb = new XSSFWorkbook(fis);
-                    XSSFSheet sheet = wb.getSheetAt(0);
-                    
-                    Row row = sheet.getRow(i + 1);
-                    userIndex = i + 1;
-                    
-                    userId = row.getCell(0).getStringCellValue();
-                    name = row.getCell(1).getStringCellValue();
-                    username = row.getCell(2).getStringCellValue();
-                    Cell cell = row.getCell(3);
-                    cell.setCellType(CellType.STRING);
-                    password = cell.getStringCellValue();
-                    email = row.getCell(4).getStringCellValue();
-                    DOB = row.getCell(5).getStringCellValue();
-                    address = row.getCell(6).getStringCellValue();
-                    phoneNum = (int) row.getCell(7).getNumericCellValue();
-                    safetyPin = (int) row.getCell(8).getNumericCellValue();
-                    point = (long) row.getCell(9).getNumericCellValue();
-
-                    
-
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    setName(resultSet.getString("NAME"));
+                    setDob(resultSet.getString("DOB"));
+                    setMobileNum(resultSet.getString("MOBILENUM"));
+                    setEmail(resultSet.getString("EMAIL"));
+                    setAddress(resultSet.getString("ADDRESS"));
+                    setUsername(resultSet.getString("USERNAME"));
+                    setPassword(resultSet.getString("PASSWORD"));
+                    setSafetyPin(resultSet.getString("SAFETYPIN"));       
                 }
-                catch (FileNotFoundException ex) 
-                {
-                    System.out.println(ex);
-                }
-                catch (IOException ioe) 
-                {
-                    System.out.println(ioe);
-                }
-                
-                return true;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
         
-        return false;
+        public void populateDataFromAdminDB(int adminId) {
+        String query = "SELECT * FROM " + Constant.DB_ADMIN_TABLE_NAME + " WHERE ADMINID = ?";
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, adminId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    
+                    setName(resultSet.getString("NAME"));
+                    setDob(resultSet.getString("DOB"));
+                    setMobileNum(resultSet.getString("MOBILENUM"));
+                    setEmail(resultSet.getString("EMAIL"));
+                    setAddress(resultSet.getString("ADDRESS"));
+                    setUsername(resultSet.getString("USERNAME"));
+                    setPassword(resultSet.getString("PASSWORD"));
+                    setSafetyPin(resultSet.getString("SAFETYPIN"));  
+                    
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+        
+        public void clearUserData(){
+            setName(null);
+            setDob(null);
+            setMobileNum(null);
+            setEmail(null);
+            setAddress(null);
+            setUsername(null);
+            setPassword(null);
+            setSafetyPin(null);
+        }
+
+    public int getId() {
+        return id.get();
+    }   
+
+    public String getName() {
+        return name.get();
+    }
+
+    public String getDob() {
+        return dob.get();
+    }
+
+    public String getMobileNum() {
+        return mobileNum.get();
+    }
+
+    public String getEmail() {
+        return email.get();
+    }
+
+    public String getAddress() {
+        return address.get();
+    }
+
+    public String getUsername() {
+        return username.get();
+    }
+
+    public String getPassword() {
+        return password.get();
+    }
+
+    public String getSafetyPin() {
+        return safetyPin.get();
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
     }
     
-    public boolean EditProfile(String userId, String name, String username, String email, String DOB, String address){
-        for (int i = 0; i < usernameList.length; i++) {
-            if (username.equals(usernameList[i]) || email.equals(emailList[i])) {
-                return false;
-            }
-        }
-        
-        try {
-            FileInputStream fis = new FileInputStream(fileName);
-            XSSFWorkbook wb = new XSSFWorkbook(fis);
-            XSSFSheet sheet = wb.getSheetAt(0);
-
-            Row row = sheet.getRow(userIndex);
-
-            row.getCell(1).setCellValue(name);
-            row.getCell(2).setCellValue(username);
-            row.getCell(4).setCellValue(email);
-            row.getCell(5).setCellValue(DOB);
-            row.getCell(6).setCellValue(address);
-            this.name=name;
-            this.username = username;
-            this.email = email;
-            this.DOB = DOB;
-            this.address = address;
-            nameList[userIndex - 1] = name;
-            usernameList[userIndex - 1] = username;
-            emailList[userIndex - 1] = email;
-            DOBList[userIndex - 1] = DOB;
-            addressList[userIndex - 1] = address;
-            
-
-            try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
-                wb.write(fileOut);
-            }
-
-        } catch (IOException ex) {
-            System.out.println(ex);
-        }
-
-        return true;
+    
+    public void setName(String name) {
+        this.name.set(name);
     }
+
+    public StringProperty nameProperty() {
+        return name;
     }
+
+    public void setDob(String dob) {
+         this.dob.set(dob);
+    }
+    
+    public StringProperty dobProperty() {
+        return dob;
+    }
+
+    public void setMobileNum(String mobileNum) {
+        this.mobileNum.set(mobileNum);
+    }
+    
+    public StringProperty mobileNumProperty() {
+        return mobileNum;
+    }
+
+    public void setEmail(String email) {
+        this.email.set(email);
+    }
+    
+    public StringProperty emailProperty() {
+        return email;
+    }
+
+    public void setAddress(String address) {
+        this.address.set(address);
+    }
+    
+    public StringProperty addressProperty() {
+        return address;
+    }
+
+    public void setUsername(String username) {
+        this.username.set(username);
+    }
+    
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public void setPassword(String password) {
+        this.password.set(password);
+    }
+    
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    public void setSafetyPin(String safetyPin) {
+        this.safetyPin.set(safetyPin);
+    }
+
+    public StringProperty safetyPinProperty() {
+        return safetyPin;
+    }
+
+    
+}
     
     
 

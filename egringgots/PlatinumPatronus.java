@@ -8,15 +8,9 @@ package egringgots;
  *
  * @author User
  */
-public class PlatinumPatronus<T> extends MagicalUser<T> {
-    
-    private T type;
+public class PlatinumPatronus<T> extends UserType<T> {
 
-    public PlatinumPatronus(T userId, String username, String password, String email, String address, T type) {
-        super(userId, username, password, email, address);
-        this.type=type;
+    public PlatinumPatronus(Account<T> account, int points) {
+        super(account, points);
     }
-
-
-
 }

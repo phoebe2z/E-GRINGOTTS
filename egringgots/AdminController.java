@@ -10,11 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author User
- */
 public class AdminController implements Initializable {
     public BorderPane admin_parent;
 
@@ -22,7 +17,7 @@ public class AdminController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Model.getInstance().getViewFactory().getAdminSelectedMenuItem().addListener((observableValue, oldVal, newVal)->{
             switch(newVal){
-                case  VIEWUSER -> admin_parent.setCenter(Model.getInstance().getViewFactory().getAdminUserView());
+                case VIEWUSER -> admin_parent.setCenter(Model.getInstance().getViewFactory().getAdminUserView());
                 case DEPOSIT -> admin_parent.setCenter(Model.getInstance().getViewFactory().getAdminDepositView());
                 case USERCARDDETAIL -> admin_parent.setCenter(Model.getInstance().getViewFactory().getAdminUserCardView());
                 case PROFILE -> admin_parent.setCenter(Model.getInstance().getViewFactory().getEditUserProfileView());

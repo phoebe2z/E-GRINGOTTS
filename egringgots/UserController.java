@@ -24,6 +24,11 @@ public class UserController implements Initializable{
                 case TRANSACTION -> user_parent.setCenter(Model.getInstance().getViewFactory().getTransactionView());
                 case PROFILE -> user_parent.setCenter(Model.getInstance().getViewFactory().getEditUserProfileView());
                 case CARDDETAIL -> user_parent.setCenter(Model.getInstance().getViewFactory().getCardDetailView());
+                case EDITCARDDETAIL -> user_parent.setCenter(Model.getInstance().getViewFactory().getEditCardDetailView());
+                case EXCHANGE -> user_parent.setCenter(Model.getInstance().getViewFactory().getExchangeView());
+                case TRANSFER -> user_parent.setCenter(Model.getInstance().getViewFactory().getMarauderView());
+                case EDITBUTTON -> user_parent.setCenter(Model.getInstance().getViewFactory().getEditUserProfileButton());
+                case CHANGEPASSBUTTON -> user_parent.setCenter(Model.getInstance().getViewFactory().getChangeUserPassPinButton());
                 case LOGOUT -> {Stage stage = (Stage) user_parent.getScene().getWindow();
                                 Model.getInstance().getViewFactory().closeStage(stage);
                                 Model.getInstance().getViewFactory().showLoginWindow();}

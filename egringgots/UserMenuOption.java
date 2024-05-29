@@ -13,6 +13,10 @@ public enum UserMenuOption {
     TRANSACTION,
     EXCHANGE,
     CARDDETAIL,
+    EDITCARDDETAIL,
     PROFILE,
+    TRANSFER,
+    EDITBUTTON,
+    CHANGEPASSBUTTON,
     LOGOUT
 }

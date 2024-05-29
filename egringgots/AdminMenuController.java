@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  *
@@ -59,6 +60,9 @@ public class AdminMenuController implements Initializable {
 
     @FXML
     private Button ViewButton;
+    
+    @FXML
+    private Button AddCurrencyBtn;
 
     @FXML
     void Card_Btn() {
@@ -76,8 +80,14 @@ public class AdminMenuController implements Initializable {
     }
 
     @FXML
-    void Logout_Btn() {
+    void Logout_Btn() { 
+        Account account = SessionManager.getCurrentUser();
+        account.clearUserData();
+        SessionManager.clearSession();
         Model.getInstance().getViewFactory().getAdminSelectedMenuItem().set(AdminMenuOption.LOGOUT);
+        Stage stage = (Stage) MenuPanel.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeStage(stage);
+        
     }
 
     @FXML
@@ -88,6 +98,11 @@ public class AdminMenuController implements Initializable {
     @FXML
     void View_Btn() {
         Model.getInstance().getViewFactory().getAdminSelectedMenuItem().set(AdminMenuOption.VIEWUSER);
+    }
+    
+        @FXML
+    void Add_Btn(ActionEvent event) {
+
     }
 
     

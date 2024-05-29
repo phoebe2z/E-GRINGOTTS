@@ -4,7 +4,7 @@
  */
 package egringgots;
 
-import egringgots.Database;
+import Database.Database;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -31,7 +31,7 @@ import javafx.stage.Stage;
  * @author User
  */
 public class AccountCreationController implements Initializable {
-
+    
     @FXML
     private Label AccCreationText;
 
@@ -75,6 +75,8 @@ public class AccountCreationController implements Initializable {
     private PreparedStatement prepare;
     private ResultSet result;
     
+    private RegisterPageController registerPageController;
+    
     private Alert alert;
     @FXML
     void BackBtn(ActionEvent event) {
@@ -85,10 +87,36 @@ public class AccountCreationController implements Initializable {
 
     @FXML
     void ConfirmBtn(ActionEvent event) {
-        Stage stage = (Stage) AccountPanel.getScene().getWindow();
-        Model.getInstance().getViewFactory().closeStage(stage);
-        Model.getInstance().getViewFactory().showVerificationWindow();
-        
+        if (validateUserInput(UsernameField.getText(), PasswordField.getText(), RepeatField.getText(), SafetyField.getText())) {
+            int userId = RegisterPageController.getInstance().getUserId();
+            System.out.println("ConfirmBtn - userId: " + userId);
+            if (userId > 0) {
+                if (Database.registerAccount(userId, UsernameField.getText(), PasswordField.getText(), SafetyField.getText())) {
+                    Stage stage = (Stage) AccountPanel.getScene().getWindow();
+                    Model.getInstance().getViewFactory().closeStage(stage);
+                    Model.getInstance().getViewFactory().showLoginWindow();
+                } else {
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Failed to create account");
+                    alert.showAndWait();
+                }        
+            } else {
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Invalid userId");
+                    alert.showAndWait();
+            }
+
+            } else {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Username are taken or password mismatch");
+                alert.showAndWait();
+        }
     }
 
     @FXML
@@ -96,11 +124,18 @@ public class AccountCreationController implements Initializable {
 
     }
     
+    private boolean validateUserInput(String username, String password, String repeat, String safetyPin){
+        if(!password.equals(repeat)||username.length()<6||safetyPin.length()>6)
+            return false;
+        return true;
+    }
+    
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+      
+        
     }    
     
 }

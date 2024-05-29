@@ -8,13 +8,9 @@ package egringgots;
  *
  * @author User
  */
-public class SilverSnitch<T> extends MagicalUser<T> {
-    private T type;
+public class SilverSnitch<T> extends UserType<T> {
 
-    public SilverSnitch(T userId, String username, String password, String email, String address, T type) {
-        super(userId, username, password, email, address);
-        this.type=type;
-    }   
-
-
+    public SilverSnitch(Account<T> account, int points) {
+        super(account, points);
+    }
 }

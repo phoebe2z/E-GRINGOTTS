@@ -7,10 +7,7 @@ package egringgots;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-/**
- *
- * @author User
- */
+
 public class EGringgots extends Application {
         
     @Override

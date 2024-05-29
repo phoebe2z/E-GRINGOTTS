@@ -19,7 +19,7 @@ public class PensievePastCellFactory extends ListCell<PensievePast>{
             setText(null);
             setGraphic(null);
         } else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("PastPensieveCell.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXMLFiles/PastPensieveCell.fxml"));
             PastPensieveCellController controller = new PastPensieveCellController(pensievePast);
             loader.setController(controller);
             setText(null);

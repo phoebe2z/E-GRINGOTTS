@@ -7,6 +7,7 @@ package egringgots;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -21,8 +22,14 @@ public class ViewFactory {
     private final ObjectProperty<UserMenuOption> userSelectedMenuItem;
     private AnchorPane dashboardView;
     private AnchorPane transactionView;
+    private AnchorPane exchangeView;
     private AnchorPane cardDetailView;
+    private AnchorPane editCardDetailView;
     private AnchorPane editUserProfileView;
+    
+    private AnchorPane marauderView;
+    private AnchorPane editProfileButtonView;
+    private AnchorPane changeUserPassPinButtonView;
     
     private final ObjectProperty<AdminMenuOption> adminSelectedMenuItem;
     private AnchorPane adminDashboardView;
@@ -30,6 +37,8 @@ public class ViewFactory {
     private AnchorPane adminUserView;
     private AnchorPane adminUserCardView;
     private AnchorPane adminEditProfileView;
+    
+    
     
     
     
@@ -72,6 +81,17 @@ public class ViewFactory {
         return dashboardView;
     }
     
+    public AnchorPane getExchangeView(){
+        if (exchangeView == null){
+            try{
+                exchangeView = new FXMLLoader(getClass().getResource("/FXMLFiles/Exchange.fxml")).load();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return exchangeView;
+    }
+    
     public AnchorPane getTransactionView(){
         if (transactionView == null){
             try{
@@ -94,6 +114,17 @@ public class ViewFactory {
         return cardDetailView;
     }
     
+        public AnchorPane getEditCardDetailView(){
+        if (editCardDetailView == null){
+            try{
+                editCardDetailView = new FXMLLoader(getClass().getResource("/FXMLFiles/EditCardButton.fxml")).load();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return editCardDetailView;
+    }
+    
     public AnchorPane getEditUserProfileView(){
         if (editUserProfileView == null){
             try{
@@ -103,6 +134,17 @@ public class ViewFactory {
             }
         }
         return editUserProfileView;
+    }
+    
+    public AnchorPane getMarauderView(){
+        if (marauderView == null){
+            try{
+                marauderView = new FXMLLoader(getClass().getResource("/FXMLFiles/Transfer.fxml")).load();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return marauderView;
     }
     
     //ADMIN   
@@ -213,6 +255,28 @@ public class ViewFactory {
         stage.setTitle("E-Gringgots");
         stage.show();
 
+    }
+
+    public AnchorPane getEditUserProfileButton() {
+        if (editProfileButtonView == null){
+            try{
+                editProfileButtonView = new FXMLLoader(getClass().getResource("/FXMLFiles/EditProfileButton.fxml")).load();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return editProfileButtonView;
+    }
+
+    public AnchorPane getChangeUserPassPinButton() {
+        if (changeUserPassPinButtonView == null){
+            try{
+                changeUserPassPinButtonView = new FXMLLoader(getClass().getResource("/FXMLFiles/ChangePassPinButton.fxml")).load();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return changeUserPassPinButtonView;
     }
 
 

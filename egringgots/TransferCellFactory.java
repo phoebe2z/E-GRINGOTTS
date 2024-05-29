@@ -19,7 +19,7 @@ public class TransferCellFactory extends ListCell<Transfer> {
             setText(null);
             setGraphic(null);
         }else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("TransferCell.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXMLFiles/TransferCell.fxml"));
             TransferCellController controller = new TransferCellController(transfer);
             loader.setController(controller);
             setText(null);

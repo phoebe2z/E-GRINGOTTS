@@ -8,15 +8,10 @@ package egringgots;
  *
  * @author User
  */
-public class GoldenGalleon<T> extends MagicalUser<T> {
+public class GoldenGalleon<T> extends UserType<T> {
     
-    private T type;
-
-    public GoldenGalleon(T userId, String username, String password, String email, String address, T type) {
-        super(userId, username, password, email, address);
-        this.type=type;
-    }
-
-   
+    public GoldenGalleon(Account<T> account, int points) {
+        super(account, points);
+    }  
     
 }

@@ -5,8 +5,8 @@
 package egringgots;
 
 
-import egringgots.Database;
-import egringgots.EGringgots;
+import Database.Database;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -24,6 +24,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
@@ -33,6 +35,10 @@ import javafx.stage.Stage;
  * @author User
  */
 public class LoginController implements Initializable {
+    
+    
+    
+    private AuthenticationService authenticationService;
     
     @FXML
     private AnchorPane BasePanel;
@@ -74,13 +80,48 @@ public class LoginController implements Initializable {
     private PreparedStatement prepare;
     private ResultSet result;
     
-    
+    private Alert alert;
  
     @FXML
     void ConfirmBtn(ActionEvent event) {
-        Stage stage = (Stage) LoginPanel.getScene().getWindow();
-        Model.getInstance().getViewFactory().closeStage(stage);
-        Model.getInstance().getViewFactory().showVerificationWindow();
+        if (Model.getInstance().getViewFactory().getLoginAccountType() == AccountType.USER) {
+            int userId = Database.validateAndGetUserIdLogin(UsernameField.getText(), PasswordField.getText());
+            System.out.println("Id Login : " + userId);
+            if (userId>=0) {
+                Model.getInstance().setUserId(userId);
+                Account currentAccount = new Account<>();
+                currentAccount.populateDataFromUserDB(userId);
+                SessionManager.setCurrentUser(currentAccount);
+                Stage stage = (Stage) LoginPanel.getScene().getWindow();
+                Model.getInstance().getViewFactory().closeStage(stage);
+                Model.getInstance().getViewFactory().showVerificationWindow();
+            } else {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Wrong username or password");
+                alert.showAndWait();
+            }
+        } else {
+            int adminId = Database.validateAndGetAdminIdLogin(UsernameField.getText(), PasswordField.getText());
+            if (adminId >= 0) {
+                Model.getInstance().setUserId(adminId);
+                Account currentAccount = new Account<>();
+                currentAccount.populateDataFromAdminDB(adminId);
+                SessionManager.setCurrentUser(currentAccount);
+                Stage stage = (Stage) LoginPanel.getScene().getWindow();
+                Model.getInstance().getViewFactory().closeStage(stage);
+                Model.getInstance().getViewFactory().showVerificationWindow();
+            } else {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Wrong username or password");
+                alert.showAndWait();
+            }
+
+        }
+
     }
 
     @FXML
@@ -95,7 +136,7 @@ public class LoginController implements Initializable {
         UserType.setItems(FXCollections.observableArrayList(AccountType.USER, AccountType.ADMIN));
         UserType.setValue(Model.getInstance().getViewFactory().getLoginAccountType());
         UserType.valueProperty().addListener(observable->Model.getInstance().getViewFactory().setLoginAccountType(UserType.getValue()));
-    }    
+    }
     
     
 }
