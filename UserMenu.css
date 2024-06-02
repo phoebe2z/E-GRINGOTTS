@@ -1,0 +1,68 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 14 May 2024, 7:42:27 pm
+    Author     : User
+*/
+
+.user_menu_container{
+    -fx-background-color: #CDC5BD;
+    -fx-alignment: center; 
+    -fx-border-color: #0D0C1D;
+    -fx-border-width: 5px;
+}
+
+.left_container{
+    -fx-background-color: #CDC5BD;
+    -fx-background-radius: 10;  
+}
+
+.menu_container{
+    -fx-padding: 10 10 10 20;
+    -fx-spacing: 10;   
+}
+
+.menu_container Button{
+    -fx-pref-width:115;
+    -fx-pref-height: 40;
+    -fx-font-family: Arial Black;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-color: #7F7F7F;
+    -fx-text-fill: #fff;
+    -fx-alignment: CENTER_LEFT;   
+}
+
+.menu_container Button:hover{
+    -fx-cursor: hand;   
+    -fx-background-color: #202020;
+}
+
+.alt_menu_btn{
+    -fx-pref-width: 115;
+    -fx-pref-height: 40;
+    -fx-text-fill: #fff;
+    -fx-font-size: 16px;
+    -fx-font-family: Arial Black;
+    -fx-font-weight: bold;
+    -fx-background-color: #0D0C1D;
+    -fx-alignment: CENTER_LEFT;   
+}
+.alt_menu_btn Button:hover{
+    -fx-cursor: hand;   
+    -fx-background-color: #0D0C1D;
+    
+}
+
+.title_container{
+    -fx-background-color: #0D0C1D;
+    -fx-alignment: TOP_CENTER;
+    -fx-padding: 20;
+}
+
+.title_container Text{
+    -fx-fill: #fff;
+    
+}

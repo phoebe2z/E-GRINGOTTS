@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="VerificationPaneBase" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringgots.VerificationPageController">
+   <children>
+      <AnchorPane fx:id="BasePane" prefHeight="200.0" prefWidth="200.0" styleClass="base" stylesheets="@../CSSClass/VerificationPage.css">
+         <children>
+            <AnchorPane fx:id="VerificationPanel" layoutX="75.0" layoutY="68.0" prefHeight="289.0" prefWidth="449.0" styleClass="panel" stylesheets="@../CSSClass/VerificationPage.css">
+               <children>
+                  <Label fx:id="AccCreationText" layoutX="166.0" layoutY="76.0" prefHeight="21.0" prefWidth="118.0" text="Verification">
+                     <font>
+                        <Font name="Cooper Black" size="18.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="PinField" alignment="CENTER" layoutX="144.0" layoutY="119.0" prefHeight="35.0" prefWidth="161.0" promptText="6 Pin Digit" styleClass="textfield" stylesheets="@../CSSClass/VerificationPage.css" />
+                  <Button fx:id="NextButton" layoutX="250.0" layoutY="196.0" mnemonicParsing="false" onAction="#NextBtn" prefHeight="35.0" prefWidth="125.0" styleClass="button-color" stylesheets="@../CSSClass/VerificationPage.css" text="Next">
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="BackButton" layoutX="48.0" layoutY="196.0" mnemonicParsing="false" onAction="#BackBtn" prefHeight="35.0" prefWidth="125.0" styleClass="button-color" stylesheets="@../CSSClass/VerificationPage.css" text="Back">
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <Label fx:id="Title" layoutX="216.0" layoutY="14.0" styleClass="white-text-fill" stylesheets="@../CSSClass/VerificationPage.css" text="E-Gringgots" textFill="WHITE">
+               <font>
+                  <Font name="Script MT Bold" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

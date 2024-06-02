@@ -1,0 +1,90 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 14 May 2024, 9:09:10 pm
+    Author     : User
+*/
+
+.dashboard{
+    -fx-background-color: #CDC5BD; 
+    -fx-border-color: #0D0C1D;
+    -fx-border-width: 5px;
+    -fx-border-left-style: none;
+}
+
+.account_panel{
+    -fx-background-color: #0D0C1D;  
+}
+
+.account_panel text{
+    -fx-alignment: CENTER;
+    -fx-font-family: Copper Black;  
+}
+.account_pane{
+    -fx-background-color: #fff;
+    
+}
+
+.right_view{
+    -fx-background-color: #fff;
+    -fx-padding: 5 10 5 10;
+    -fx-spacing: center_left; 
+}
+
+.right_container{
+    -fx-background-color: #0D0C1D;
+    -fx-padding: 5;
+    -fx-spacing: 5;
+    -fx-alignment: CENTER;
+    -fx-border-radius: 10; 
+}
+
+.right_container text{
+    -fx-alignment: CENTER;
+    -fx-font-family: Copper Black;
+}
+
+.text_transaction {
+    -fx-font-family: Berlin Sans FB;  
+    
+    
+}
+
+.button_regular {
+    -fx-font-family: Arial Black;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: #7F7F7F;
+    -fx-text-fill: #fff;
+}
+
+.button_regular Button:hover{
+    -fx-cursor: hand;   
+    -fx-background-color: #0D0C1D;
+    
+}
+
+.button_regular_small {
+    -fx-font-family: Arial Black;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-color: #7F7F7F;
+    -fx-text-fill: #fff;
+}
+
+pensieve_listview{
+    -fx-background-color: #fff; 
+    -fx-border-color: #0D0C1D;
+}
+
+.transaction_listview .scoll-bar:vertical{
+    -fx-scale:0;   
+}
+
+.list_cell{
+    -fx-background-color: #fff;
+    -fx-padding: 15 0 15 0;
+}
+

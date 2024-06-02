@@ -1,0 +1,78 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.admindashboard{
+    -fx-background-color: #CDC5BD; 
+    -fx-border-color: #0D0C1D;
+    -fx-border-width: 5px;
+    -fx-border-left-style: none;
+}
+
+.title_panel{
+    -fx-background-color: #0D0C1D;  
+}
+
+.account_panel text{
+    -fx-alignment: CENTER;
+    -fx-font-family: Copper Black;  
+}
+.pane{
+    -fx-background-color: #fff;   
+}
+
+
+.right_container{
+    -fx-background-color: #0D0C1D;
+    -fx-padding: 5;
+    -fx-spacing: 5;
+    -fx-alignment: CENTER;
+    -fx-border-radius: 10; 
+}
+
+.right_container text{
+    -fx-alignment: CENTER;
+    -fx-font-family: Copper Black;
+}
+
+.text_regular{
+    -fx-alignment: CENTER;
+    -fx-font-size: 16px;
+    -fx-fill: #000000;
+}
+
+.text_number {
+    -fx-font-family: Berlin Sans FB; 
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.button_regular {
+    -fx-font-family: Arial Black;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: #7F7F7F;
+    -fx-text-fill: #fff;
+}
+
+.button_regular Button:hover{
+    -fx-cursor: hand;   
+    -fx-background-color: #0D0C1D;
+    
+}
+
+.containerGraph {
+    -fx-background-color: #fff; 
+    -fx-border-color: #0D0C1D;
+}
+
+.list_cell{
+    -fx-background-color: #fff;
+    -fx-padding: 15 0 15 0;
+}
+
+.Date_selector{
+    -fx-fill: #000000;
+    -fx-font-size: 14px;
+    -fx-font-family: "Berlin Sans FB";   
+}

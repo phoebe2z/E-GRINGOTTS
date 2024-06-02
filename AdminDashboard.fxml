@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" fx:id="Base" prefHeight="400.0" prefWidth="420.0" styleClass="admindashboard" stylesheets="@../CSSClass/AdminDashboardPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringgots.AdminDashboardController">
+   <children>
+      <AnchorPane fx:id="Panel" layoutX="25.0" layoutY="28.0" prefHeight="344.0" prefWidth="369.0">
+         <children>
+            <VBox fx:id="BaseVbox" prefHeight="344.0" prefWidth="370.0">
+               <children>
+                  <HBox fx:id="DividerHbox" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox fx:id="UserVbox" prefHeight="98.0" prefWidth="141.0" styleClass="right_container">
+                           <children>
+                              <Label fx:id="TotUserLabel" prefHeight="29.0" prefWidth="120.0" text="Total Number Of User" textFill="WHITE">
+                                 <VBox.margin>
+                                    <Insets left="10.0" top="10.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="Cooper Black" size="10.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane fx:id="TotUserPane" prefHeight="200.0" prefWidth="200.0" styleClass="pane">
+                                 <children>
+                                    <Text fx:id="TotOfUserText" layoutX="33.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text_number" text="100000" textAlignment="CENTER" wrappingWidth="63.47003173828125" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="TransVbox" prefHeight="98.0" prefWidth="230.0" styleClass="right_container">
+                           <children>
+                              <Label fx:id="TotTransLabel" prefHeight="14.0" prefWidth="191.0" text="Total Number Of Transaction" textAlignment="CENTER" textFill="WHITE">
+                                 <VBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="Cooper Black" size="12.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane fx:id="TotTransPanel" prefHeight="200.0" prefWidth="200.0" styleClass="pane">
+                                 <children>
+                                    <Text fx:id="TotTransText" layoutX="60.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text_number" text="100000000" textAlignment="CENTER" wrappingWidth="97.47003173828125" />
+                                    <DatePicker fx:id="TotTransDate" layoutX="11.0" layoutY="1.0" styleClass="Date_selector">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets></DatePicker>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="HboxGraph" prefHeight="247.0" prefWidth="370.0">
+                     <children>
+                        <AnchorPane fx:id="LeftPane" prefHeight="246.0" prefWidth="45.0">
+                           <children>
+                              <Button fx:id="LeftBtn" layoutX="15.0" layoutY="98.0" mnemonicParsing="false" onAction="#Left_Btn" styleClass="button_regular" text="&lt;" AnchorPane.leftAnchor="15.0" />
+                           </children>
+                        </AnchorPane>
+                        <VBox fx:id="GraphVbox" prefHeight="246.0" prefWidth="282.0">
+                           <children>
+                              <AnchorPane fx:id="GraphTitlePane" prefHeight="29.0" prefWidth="281.0">
+                                 <children>
+                                    <Label fx:id="GraphTitle" layoutX="57.0" layoutY="12.0" prefHeight="25.0" prefWidth="167.0" text="Statistic By User Type">
+                                       <font>
+                                          <Font name="Cooper Black" size="14.0" />
+                                       </font></Label>
+                                 </children>
+                              </AnchorPane>
+                              <PieChart fx:id="PieGraph" styleClass="pane" />
+                           </children>
+                        </VBox>
+                        <AnchorPane fx:id="RightPane" prefHeight="246.0" prefWidth="45.0">
+                           <children>
+                              <Button fx:id="RightBtn" layoutX="1.0" layoutY="97.0" mnemonicParsing="false" onAction="#Righ_Btn" styleClass="button_regular" text="&gt;" AnchorPane.rightAnchor="15.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

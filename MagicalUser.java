@@ -1,17 +1,26 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package egringgots;
 
-    public abstract class MagicalUser<T extends Account> {
-        protected T account;
+/**
+ *
+ * @author User
+ */
+public class MagicalUser<T> {
+    private T userId;
+    private String username;
+    private String password;
+    private String email;
+    private String address;
 
-        public MagicalUser(T account) {
-            this.account = account;
-        }
-
-        public T getAccount() {
-            return account;
-        }
-
-        public void setAccount(T account) {
-            this.account = account;
-        }
+    // Constructor
+    public MagicalUser(T userId, String username, String password, String email, String address) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.address = address;
     }
-
+}

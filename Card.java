@@ -1,103 +1,133 @@
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
-import java.util.Date;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package egringgots;
 
+import Database.Constant;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
+/**
+ *
+ * @author User
+ */
 public class Card {
-    private String cardNum;
-    private int cVV;
-    private Date expiryDate;
-    private String userId;
-    private static List<String> generatedCardNums = new ArrayList<>();
-    Random random = new Random();
-
-
-    public Card(String userId) {
-        this.userId = userId;
-        generateCardNum();
-        generateCVV();
-        generateExpiryDate();
+    
+    private StringProperty expiryDate;
+    private StringProperty cardType;
+    private IntegerProperty userId;
+     private IntegerProperty cVV;
+    private LongProperty cardNumber;
+    
+    
+    public Card(int userId, long cardNumber, int cVV, String cardType, String expiryDate){
+        this.userId = new SimpleIntegerProperty(userId);
+        this.cardNumber = new SimpleLongProperty(cardNumber);
+        this.cVV = new SimpleIntegerProperty(cVV);
+        this.cardType = new SimpleStringProperty(cardType);
+       this.expiryDate = new SimpleStringProperty(expiryDate);  
     }
-
-    public String getCardNum() {
-
-        return cardNum;
+    
+    public Card(){
+    
     }
+     
 
-    public void generateCardNum() {
-//        generate a 16-digit card number
-        StringBuilder stringBuilder = new StringBuilder();
-        do {
-            for (int i = 0; i < 16; i++) {
-                stringBuilder.append(random.nextInt(10));
-            }
-        } while (generatedCardNums.contains(stringBuilder.toString()));
-//        avoid duplicate card numbers
-        this.cardNum = stringBuilder.toString();
-        generatedCardNums.add(cardNum);
-    }
-
-    public int getCVV() {
-
-        return cVV;
-    }
-
-    public void generateCVV() {
-//generate a 3-digit cvv
-        this.cVV = random.nextInt(900) + 100;
+    public int getcVV() {
+        return cVV.get();
     }
 
     public String getExpiryDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM / YY");
-
-        return dateFormat.format(expiryDate);
+        return expiryDate.get();
     }
 
-    public void generateExpiryDate() {
-        Calendar calendar = Calendar.getInstance();
-//        the card will expire in 10 years
-
-        calendar.add(Calendar.YEAR, 10);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        this.expiryDate = calendar.getTime();
+    public String getCardType() {
+        return cardType.get();
     }
 
-    public boolean isExpired() {
-        return expiryDate.before(new Date());
+    public int getUserId() {
+        return userId.get();
     }
 
-    public void updateExpiryDate() {
-
-        Calendar currentCalendar = Calendar.getInstance();
-        Calendar expiryCalendar = Calendar.getInstance();
-//            user can update the expiration time within three months before the expiration date
-        currentCalendar.add(Calendar.MONTH, 3);
-        if (currentCalendar.after(expiryDate)) {
-            expiryCalendar.setTime(expiryDate);
-//            Update expiry date by 20 years
-            expiryCalendar.add(Calendar.YEAR, 20);
-            expiryDate = expiryCalendar.getTime();
-        } else {
-            System.out.println("Your card will expire for a long time so don't need to update it yet.");
-        }
-
+    public long getCardNumber() {
+        return cardNumber.get();
     }
 
-    public String getUserId() {
+    public void setcVV(int cVV) {
+        this.cVV.set(cVV);
+    }
 
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate.set(expiryDate);
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType.set(cardType);
+    }
+
+    public void setUserId(int userId) {
+        this.userId.set(userId);
+    }
+
+    public void setCardNumber(long cardNumber) {
+        this.cardNumber.set(cardNumber);
+    }
+    
+    public StringProperty expiryDateProperty(){
+        return expiryDate;
+    }
+  
+    public IntegerProperty cVVProperty(){
+        return cVV;
+    }
+    
+    public StringProperty cardTypeProperty(){
+        return cardType;
+    }
+    
+    public IntegerProperty userIdProperty(){
         return userId;
     }
-
-    public void setUserId(String userId) {
-
-        this.userId = userId;
+    
+    public LongProperty cardNumberProperty(){
+        return cardNumber;
     }
+    
+    
+        public static Card getCardDetails(int userId, String type) {
+        Card card = null;
+        String query = "SELECT * FROM user_card WHERE usersid = ? AND cardtype = ?";
 
-    @Override
-    public String toString() {
-        return "Card{" + "cardNum='" + cardNum + '\'' + ", cVV=" + cVV + ", expiryDate=" + expiryDate + ", userId='" + userId + '\'' + '}';
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            stmt.setString(2, type);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    long cardNumber = rs.getLong("cardnumber");
+                    int cVV = rs.getInt("cvv");
+                    String expiryDate = rs.getString("expirydate");
+                    String cardType = rs.getString("cardtype");
+
+                    card = new Card(userId, cardNumber, cVV, cardType, expiryDate);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return card;
     }
+ 
 }

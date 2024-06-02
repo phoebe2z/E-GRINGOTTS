@@ -1,0 +1,35 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.base {
+    -fx-background-color: #CDC5BD; 
+    -fx-border-color: #0D0C1D;
+    -fx-border-width: 5px;
+    -fx-border-left-style: none;
+}
+
+.panel{
+    -fx-background-color: #0D0C1D;  
+}
+
+
+.panel Text{
+    -fx-alignment: CENTER;
+    -fx-font-family: "Cooper Black"; 
+    -fx-font-size: 14px;
+}
+
+.button_regular {
+    -fx-font-family: Arial Black;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: #7F7F7F;
+    -fx-text-fill: #fff;
+}
+
+.button_regular Button:hover{
+    -fx-cursor: hand;   
+    -fx-background-color: #0D0C1D;
+    
+}
