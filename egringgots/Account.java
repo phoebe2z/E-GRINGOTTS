@@ -33,6 +33,7 @@ public class Account<T> {
     private StringProperty username = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
     private StringProperty safetyPin = new SimpleStringProperty();
+    private StringProperty salt= new SimpleStringProperty();
 
     
     public Account() {
@@ -54,7 +55,8 @@ public class Account<T> {
                     setAddress(resultSet.getString("ADDRESS"));
                     setUsername(resultSet.getString("USERNAME"));
                     setPassword(resultSet.getString("PASSWORD"));
-                    setSafetyPin(resultSet.getString("SAFETYPIN"));       
+                    setSafetyPin(resultSet.getString("SAFETYPIN"));
+                    setSalt(resultSet.getString("salt"));
                 }
             }
         } catch (SQLException e) {
@@ -78,8 +80,7 @@ public class Account<T> {
                     setAddress(resultSet.getString("ADDRESS"));
                     setUsername(resultSet.getString("USERNAME"));
                     setPassword(resultSet.getString("PASSWORD"));
-                    setSafetyPin(resultSet.getString("SAFETYPIN"));  
-                    
+                    setSafetyPin(resultSet.getString("SAFETYPIN"));
                 }
             }
         } catch (SQLException e) {
@@ -207,7 +208,17 @@ public class Account<T> {
         return safetyPin;
     }
 
-    
+    public String getSalt() {
+        return salt.get();
+    }
+
+    public StringProperty saltProperty() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt.set(salt);
+    }
 }
     
     

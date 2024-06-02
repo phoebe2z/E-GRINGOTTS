@@ -6,6 +6,7 @@ package egringgots;
 
 import Database.Database;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import java.util.ResourceBundle;
@@ -169,7 +170,7 @@ public class ChangePassPinButtonController implements Initializable {
                     alert.setContentText(errorMessage.toString());
                     alert.showAndWait();
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | NoSuchAlgorithmException e) {
                 e.printStackTrace(); 
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");

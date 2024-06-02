@@ -9,6 +9,9 @@ import egringgots.Account;
 import egringgots.Card;
 import egringgots.Model;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.sql.Statement;
@@ -18,6 +21,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Base64;
 
 public class Database {
     
@@ -57,11 +61,14 @@ public class Database {
         try{
         if(!(checkUsername(username))){
             Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
-            PreparedStatement insertUser = connection.prepareStatement("UPDATE " + Constant.DB_USERS_TABLE_NAME + " SET username = ?, password = ?, safetyPin = ? WHERE usersid = ?");
+            PreparedStatement insertUser = connection.prepareStatement("UPDATE " + Constant.DB_USERS_TABLE_NAME + " SET username = ?, password = ?, safetyPin = ?,salt=? WHERE usersid = ?");
+            String salt = generateSalt();
+            String hashedPassword = hashPassword(password, salt);
             insertUser.setString(1, username);
-            insertUser.setString(2, password);
+            insertUser.setString(2, hashedPassword);
             insertUser.setString(3, safetyPin);
-            insertUser.setInt(4, userId);
+            insertUser.setString(4, salt);
+            insertUser.setInt(5, userId);
             
             int affectedRows = insertUser.executeUpdate();
             
@@ -70,7 +77,7 @@ public class Database {
             }
             return true;          
         }
-        }catch(SQLException e){
+        }catch(SQLException | NoSuchAlgorithmException e){
             e.printStackTrace();;
         }
         
@@ -134,18 +141,31 @@ public class Database {
         public static int validateAndGetUserIdLogin(String username, String password){
             try {
                 Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
-                PreparedStatement validateUser = connection.prepareStatement("SELECT * FROM " + Constant.DB_USERS_TABLE_NAME + " WHERE USERNAME = ? AND PASSWORD = ?");
+                PreparedStatement validateUser = connection.prepareStatement(
+                        "SELECT usersid, salt, password FROM " + Constant.DB_USERS_TABLE_NAME + " WHERE username = ?"
+                );
                 validateUser.setString(1, username);
-                validateUser.setString(2, password);
-                
-           try (ResultSet resultSet = validateUser.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getInt("usersid");
-                } else {
-                    return -1; // No matching user found
+
+                try (ResultSet resultSet = validateUser.executeQuery()) {
+                    if (resultSet.next()) {
+                        int userId = resultSet.getInt("usersid");
+                        String dbSalt = resultSet.getString("salt");
+                        String dbHashedPassword = resultSet.getString("password");
+
+                        // Hash the incoming password with the retrieved salt
+                        String hashedPassword = hashPassword(password, dbSalt);
+
+                        // Compare the hashed password with the one stored in the database
+                        if (dbHashedPassword.equals(hashedPassword)) {
+                            return userId; // Login successful
+                        } else {
+                            return -1; // Password does not match
+                        }
+                    } else {
+                        return -1; // No matching user found
+                    }
                 }
-            }
-            } catch (SQLException e) {
+            } catch (SQLException | NoSuchAlgorithmException e) {
                 e.printStackTrace();
                 return -1;
             }
@@ -189,21 +209,31 @@ public class Database {
     }
     
         public static boolean validateUserPassword(String password, int usersId) {
-        try {
-            Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
-            PreparedStatement validateUser = connection.prepareStatement("SELECT * FROM " + Constant.DB_USERS_TABLE_NAME + " WHERE USERSID = ? AND PASSWORD = ?");
-            validateUser.setInt(1, usersId);
-            validateUser.setString(2, password);
+            try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+                 PreparedStatement validateUser = connection.prepareStatement(
+                         "SELECT salt, password FROM " + Constant.DB_USERS_TABLE_NAME + " WHERE usersid = ?")) {
 
-            ResultSet resultSet = validateUser.executeQuery();
-            if (!resultSet.isBeforeFirst()) {
+                validateUser.setInt(1, usersId);
+
+                try (ResultSet resultSet = validateUser.executeQuery()) {
+                    if (resultSet.next()) {
+                        String dbSalt = resultSet.getString("salt");
+                        String dbHashedPassword = resultSet.getString("password");
+
+                        // Hash the incoming password with the retrieved salt
+                        String hashedPassword = hashPassword(password, dbSalt);
+
+                        // Compare the hashed password with the one stored in the database
+                        return dbHashedPassword.equals(hashedPassword);
+                    } else {
+                        return false; // No matching user found
+                    }
+                }
+            } catch (SQLException | NoSuchAlgorithmException e) {
+                e.printStackTrace();
                 return false;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return true;
-    }
     
         public static boolean validateAdminSafetyPin(String safetyPin, int adminId) {
         try {
@@ -242,6 +272,7 @@ public class Database {
                             account.setUsername(resultSet.getString("USERNAME"));
                             account.setPassword(resultSet.getString("PASSWORD"));
                             account.setSafetyPin(resultSet.getString("SAFETYPIN"));
+                            account.setSalt(resultSet.getString("salt"));
                             // Set other user details
                         }
                     }
@@ -271,20 +302,29 @@ public class Database {
         }
     }
      
-     public static void saveUserPasswordPin(Account account) throws SQLException{
-        String updateQuery = "UPDATE " + Constant.DB_USERS_TABLE_NAME + " SET password = ?, safetypin = ? WHERE usersId = ?";
+     public static void saveUserPasswordPin(Account account) throws SQLException, NoSuchAlgorithmException {
+         // Generate a new random salt
+         String encodedSalt = generateSalt();
 
-        try (Connection conn = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
-            PreparedStatement stmt = conn.prepareStatement(updateQuery)) {
+         // Hash the password with the new salt
+         String hashedPassword = hashPassword(account.getPassword(), encodedSalt);
 
-            stmt.setString(1, account.getPassword());
-            stmt.setString(2, account.getSafetyPin());
-            stmt.setInt(3, Model.getInstance().getUserId());
+         // SQL to update the user's password and salt
+         String updateQuery = "UPDATE " + Constant.DB_USERS_TABLE_NAME + " SET password = ?, safetypin = ?, salt = ? WHERE usersId = ?";
 
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+         try (Connection conn = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+              PreparedStatement stmt = conn.prepareStatement(updateQuery)) {
+
+             stmt.setString(1, hashedPassword);
+             stmt.setString(2, account.getSafetyPin());
+             stmt.setString(3, encodedSalt);
+             stmt.setInt(4, Model.getInstance().getUserId());
+
+             stmt.executeUpdate();
+         } catch (SQLException e) {
+             e.printStackTrace();
+             throw e; // Re-throw the exception to handle it outside this method if necessary
+         }
      }
      
         public static void saveUserCard(Card card) throws SQLException{
@@ -305,5 +345,19 @@ public class Database {
             throw e;
         }
         }
+    public static String generateSalt() throws NoSuchAlgorithmException {
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt);
+    }
+
+    // Hash the password with the salt
+    public static String hashPassword(String password, String salt) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(Base64.getDecoder().decode(salt)); // Add salt to digest
+        byte[] hashedPassword = md.digest(password.getBytes());
+        return Base64.getEncoder().encodeToString(hashedPassword);
+    }
 
 }

@@ -20,4 +20,12 @@ public class Password_Salt {
         byte[] hashedPassword = md.digest(password.getBytes());
         return Base64.getEncoder().encodeToString(hashedPassword);
     }
+    //hashPassword and salt stored in database, password is the input by user
+    //check the input password
+    public static boolean valid(String hashPassword, String salt,String password) throws NoSuchAlgorithmException {
+        if(hashPassword.equals(hashPassword(password,salt))){
+            return true;
+        }
+        return false;
+    }
 }
