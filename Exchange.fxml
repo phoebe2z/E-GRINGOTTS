@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" fx:id="Base" prefHeight="400.0" prefWidth="420.0" styleClass="Base" stylesheets="@../CSSClass/ExchangePage.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="egringgots.ExchangeController">
+   <children>
+      <VBox fx:id="Panel" layoutX="23.0" layoutY="51.0" prefHeight="320.0" prefWidth="370.0" styleClass="panel">
+         <children>
+            <HBox fx:id="UpperHbox" prefHeight="90.0" prefWidth="370.0">
+               <children>
+                  <VBox fx:id="leftVbox" prefHeight="100.0" prefWidth="185.0">
+                     <children>
+                        <Label fx:id="FromLbl" styleClass="Basic_text" text="From">
+                           <VBox.margin>
+                              <Insets left="80.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ChoiceBox fx:id="FromCB" prefHeight="25.0" prefWidth="130.0">
+                           <VBox.margin>
+                              <Insets left="30.0" top="10.0" />
+                           </VBox.margin>
+                        </ChoiceBox>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="RightVbox" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="185.0">
+                     <children>
+                        <Label fx:id="ToLbl" styleClass="Basic_text" text="To">
+                           <VBox.margin>
+                              <Insets left="85.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ChoiceBox fx:id="ToCB" prefHeight="25.0" prefWidth="130.0">
+                           <VBox.margin>
+                              <Insets left="30.0" top="10.0" />
+                           </VBox.margin>
+                        </ChoiceBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label fx:id="AmountLbl" styleClass="Basic_text" text="Amount">
+               <VBox.margin>
+                  <Insets left="155.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="AmountField">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" top="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Button fx:id="CalcBtn" mnemonicParsing="false" onAction="#Calc_Btn" styleClass="button_regular" text="Calculate">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="145.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+            <HBox fx:id="LowerHbox" prefHeight="71.0" prefWidth="370.0">
+               <children>
+                  <VBox fx:id="LLeftVbox" prefHeight="65.0" prefWidth="215.0">
+                     <children>
+                        <Label fx:id="AmountAfterLbl" prefHeight="17.0" prefWidth="183.0" styleClass="Normal_text" text="Amount After Exchange:">
+                           <VBox.margin>
+                              <Insets left="60.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="FeeLbl" layoutX="10.0" layoutY="10.0" styleClass="Normal_text" text="Processing Fee:">
+                           <VBox.margin>
+                              <Insets left="60.0" top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0" prefHeight="51.0" prefWidth="167.0">
+                     <children>
+                        <Label fx:id="AmountValue" styleClass="Normal_text" text="10000 galleon">
+                           <VBox.margin>
+                              <Insets left="10.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="FeeValue" layoutX="20.0" layoutY="20.0" styleClass="Normal_text" text="21 knutt">
+                           <VBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox fx:id="LowestHbox" prefHeight="70.0" prefWidth="370.0">
+               <children>
+                  <Button fx:id="ClearBtn" mnemonicParsing="false" onAction="#Clear_Btn" prefHeight="25.0" prefWidth="71.0" styleClass="button_regular" text="Clear">
+                     <HBox.margin>
+                        <Insets left="50.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="ProceedBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#Proceed_Btn" styleClass="button_regular" text="Proceed">
+                     <HBox.margin>
+                        <Insets left="130.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Label fx:id="Title" layoutX="128.0" layoutY="21.0" styleClass="Title_text" text="Gringgots Exchange" textFill="WHITE" />
+   </children>
+</AnchorPane>

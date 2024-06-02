@@ -1,0 +1,38 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.EditBase {
+    -fx-background-color: #0D0C1D;
+
+}
+
+.Basic_text{
+    -fx-fill: #000000;
+    -fx-font-size: 14px;
+    -fx-font-family: "Berlin Sans FB";   
+}
+
+.button_regular {
+    -fx-font-family: Arial Black;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: #7F7F7F;
+    -fx-text-fill: #fff;
+}
+
+.button_regular Button:hover{
+    -fx-cursor: hand;   
+    -fx-background-color: #0D0C1D;
+    
+}
+
+.panel{
+    -fx-background-color: #CDC5BD;   
+}
+
+.Title_text{
+    -fx-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-family: "Berlin Sans FB Demi";   
+}

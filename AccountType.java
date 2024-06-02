@@ -8,9 +8,8 @@ package egringgots;
  *
  * @author User
  */
-public class PlatinumPatronus<T> extends UserType<T> {
-
-    public PlatinumPatronus(Account<T> account, int points) {
-        super(account, points);
-    }
+public enum AccountType {
+    ADMIN,
+    USER
+    
 }

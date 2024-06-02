@@ -1,55 +1,217 @@
-public class Account {
-    private String username;
-    private String password;
-    private String Dob;
-    private String address;
-    private String email;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package egringgots;
 
-    public Account(String Username, String password, String dob, String address, String email) {
-        this.username = Username;
-        this.password = password;
-        this.Dob = dob;
-        this.address = address;
-        this.email = email;
+import Database.Constant;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javafx.beans.property.IntegerProperty;
+
+import javafx.beans.property.SimpleIntegerProperty;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+
+
+public class Account<T> {
+    private IntegerProperty id = new SimpleIntegerProperty();
+    private StringProperty name = new SimpleStringProperty();
+    private StringProperty dob = new SimpleStringProperty();
+    private StringProperty mobileNum = new SimpleStringProperty();
+    private StringProperty email = new SimpleStringProperty();
+    private StringProperty address = new SimpleStringProperty();
+    private StringProperty username = new SimpleStringProperty();
+    private StringProperty password = new SimpleStringProperty();
+    private StringProperty safetyPin = new SimpleStringProperty();
+
+    
+    public Account() {
+
     }
+ 
+    public void populateDataFromUserDB(int userId) {
+        String query = "SELECT * FROM " + Constant.DB_USERS_TABLE_NAME + " WHERE USERSID = ?";
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-    public String getUsername() {
-        return username;
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    setName(resultSet.getString("NAME"));
+                    setDob(resultSet.getString("DOB"));
+                    setMobileNum(resultSet.getString("MOBILENUM"));
+                    setEmail(resultSet.getString("EMAIL"));
+                    setAddress(resultSet.getString("ADDRESS"));
+                    setUsername(resultSet.getString("USERNAME"));
+                    setPassword(resultSet.getString("PASSWORD"));
+                    setSafetyPin(resultSet.getString("SAFETYPIN"));       
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+        
+        public void populateDataFromAdminDB(int adminId) {
+        String query = "SELECT * FROM " + Constant.DB_ADMIN_TABLE_NAME + " WHERE ADMINID = ?";
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-    public void setUsername(String username) {
-        this.username = username;
+            preparedStatement.setInt(1, adminId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    
+                    setName(resultSet.getString("NAME"));
+                    setDob(resultSet.getString("DOB"));
+                    setMobileNum(resultSet.getString("MOBILENUM"));
+                    setEmail(resultSet.getString("EMAIL"));
+                    setAddress(resultSet.getString("ADDRESS"));
+                    setUsername(resultSet.getString("USERNAME"));
+                    setPassword(resultSet.getString("PASSWORD"));
+                    setSafetyPin(resultSet.getString("SAFETYPIN"));  
+                    
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+        
+        public void clearUserData(){
+            setName(null);
+            setDob(null);
+            setMobileNum(null);
+            setEmail(null);
+            setAddress(null);
+            setUsername(null);
+            setPassword(null);
+            setSafetyPin(null);
+        }
 
-    public String getPassword() {
-        return password;
-    }
+    public int getId() {
+        return id.get();
+    }   
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getName() {
+        return name.get();
     }
 
     public String getDob() {
-        return Dob;
+        return dob.get();
     }
 
-    public void setDob(String dob) {
-        Dob = dob;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public String getMobileNum() {
+        return mobileNum.get();
     }
 
     public String getEmail() {
-        return email;
+        return email.get();
+    }
+
+    public String getAddress() {
+        return address.get();
+    }
+
+    public String getUsername() {
+        return username.get();
+    }
+
+    public String getPassword() {
+        return password.get();
+    }
+
+    public String getSafetyPin() {
+        return safetyPin.get();
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
+    
+    
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    public StringProperty nameProperty() {
+        return name;
+    }
+
+    public void setDob(String dob) {
+         this.dob.set(dob);
+    }
+    
+    public StringProperty dobProperty() {
+        return dob;
+    }
+
+    public void setMobileNum(String mobileNum) {
+        this.mobileNum.set(mobileNum);
+    }
+    
+    public StringProperty mobileNumProperty() {
+        return mobileNum;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email.set(email);
     }
+    
+    public StringProperty emailProperty() {
+        return email;
+    }
+
+    public void setAddress(String address) {
+        this.address.set(address);
+    }
+    
+    public StringProperty addressProperty() {
+        return address;
+    }
+
+    public void setUsername(String username) {
+        this.username.set(username);
+    }
+    
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public void setPassword(String password) {
+        this.password.set(password);
+    }
+    
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    public void setSafetyPin(String safetyPin) {
+        this.safetyPin.set(safetyPin);
+    }
+
+    public StringProperty safetyPinProperty() {
+        return safetyPin;
+    }
+
+    
 }
+    
+    
+
+    
+    
+    
+    
+

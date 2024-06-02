@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" fx:id="AnchorBase" prefHeight="400.0" prefWidth="420.0" styleClass="EditBase" stylesheets="@../CSSClass/AddCurrencyPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringgots.AddCurrencyController">
+   <children>
+      <VBox fx:id="PanelVbox" layoutX="17.0" layoutY="53.0" prefHeight="321.0" prefWidth="386.0" styleClass="panel">
+         <children>
+            <AnchorPane fx:id="InsertPane" prefHeight="103.0" prefWidth="375.0">
+               <children>
+                  <VBox fx:id="InsertVbox" layoutX="5.0" prefHeight="127.0" prefWidth="375.0">
+                     <children>
+                        <Label fx:id="insertTitle" styleClass="Basic_text" text="Insert Currency Name:">
+                           <VBox.margin>
+                              <Insets left="125.0" top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="InsertField">
+                           <VBox.margin>
+                              <Insets left="50.0" right="50.0" top="20.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Button fx:id="AddBtn" mnemonicParsing="false" onAction="#Add_Btn" prefHeight="25.0" prefWidth="59.0" styleClass="button_regular" text="Add">
+                           <VBox.margin>
+                              <Insets left="160.0" top="10.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="SetCurrencyPane" prefHeight="47.0" prefWidth="375.0">
+               <children>
+                  <Label fx:id="SetTitle" layoutX="112.0" layoutY="15.0" styleClass="Basic_text" text="Set Currency Change Value:" />
+               </children>
+            </AnchorPane>
+            <HBox fx:id="ExchangeHbox" prefHeight="109.0" prefWidth="386.0">
+               <children>
+                  <AnchorPane fx:id="FromPane" prefHeight="100.0" prefWidth="140.0">
+                     <children>
+                        <Label fx:id="FromLabel" layoutX="53.0" layoutY="6.0" styleClass="Basic_text" text="From" AnchorPane.topAnchor="5.0" />
+                        <ChoiceBox fx:id="FromCB" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="118.0" AnchorPane.topAnchor="30.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="ExchangePane" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="100.0">
+                     <children>
+                        <Label fx:id="ExchangeLabel" layoutX="8.0" layoutY="14.0" styleClass="Basic_text" text="Exhange Rate" AnchorPane.topAnchor="5.0" />
+                        <TextField fx:id="ExchangeField" layoutX="5.0" layoutY="27.0" prefHeight="25.0" prefWidth="88.0" AnchorPane.topAnchor="25.0" />
+                        <Label fx:id="ProcessingLabel" layoutX="9.0" layoutY="52.0" styleClass="Basic_text" text="Processing Fee" AnchorPane.topAnchor="55.0" />
+                        <TextField fx:id="FeeField" layoutX="5.0" layoutY="77.0" prefHeight="25.0" prefWidth="88.0" AnchorPane.topAnchor="75.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="ToPane" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="140.0">
+                     <children>
+                        <Label fx:id="ToLabel" layoutX="62.0" layoutY="14.0" styleClass="Basic_text" text="To" AnchorPane.topAnchor="5.0" />
+                        <ChoiceBox fx:id="ToCB" layoutX="10.0" layoutY="30.0" prefHeight="25.0" prefWidth="118.0" AnchorPane.topAnchor="30.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <HBox fx:id="btnHbox" prefHeight="53.0" prefWidth="375.0">
+               <children>
+                  <Button fx:id="ClearBtn" mnemonicParsing="false" onAction="#Clear_Btn" prefHeight="30.0" prefWidth="75.0" styleClass="button_regular" text="Clear">
+                     <HBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="ConfirmBtn" layoutX="50.0" layoutY="20.0" mnemonicParsing="false" onAction="#Confirm_Btn" prefHeight="30.0" prefWidth="75.0" styleClass="button_regular" text="Confirm">
+                     <HBox.margin>
+                        <Insets left="150.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Label fx:id="AddTitle" layoutX="154.0" layoutY="24.0" styleClass="Title_text" text="Add Currency" textFill="WHITE" />
+   </children>
+</AnchorPane>

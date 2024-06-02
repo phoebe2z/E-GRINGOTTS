@@ -1,0 +1,63 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.cardDetailBase {
+    -fx-background-color: #CDC5BD; 
+    -fx-border-color: #0D0C1D;
+    -fx-border-width: 5px;
+    -fx-border-left-style: none;
+}
+
+.cardDetail {
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-background-color: linear-gradient(to right bottom, #26282A, #36545F); 
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    
+}
+
+.cardDetail Text{
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-family: Arial Black;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px;
+}
+
+.numCard{
+    -fx-alignment: CENTER;
+    -fx-font-family: Arial Black;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+}
+
+.shapefill {  
+    -fx-fill: #fff;
+}
+
+.fillGrey {  
+    -fx-background-color: #9f9999;
+}
+
+.cardDetailTitle {
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-family: Arial Black;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000;
+    -fx-font-size: 18px;
+}
+
+.button_regular {
+    -fx-font-family: Arial Black;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: #7F7F7F;
+    -fx-text-fill: #fff;
+}
+
+.button_regular Button:hover{
+    -fx-cursor: hand;   
+    -fx-background-color: #0D0C1D;
+    
+}

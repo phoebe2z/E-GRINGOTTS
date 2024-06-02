@@ -1,0 +1,23 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.cellText {
+    -fx-alignment: CENTER;
+    -fx-font-family: "Berlin Sans FB"; 
+    -fx-font-size: 12px;
+}
+
+.button_regular {
+    -fx-font-family: Arial Black;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-color: #7F7F7F;
+    -fx-text-fill: #fff;
+}
+
+.button_regular Button:hover{
+    -fx-cursor: hand;   
+    -fx-background-color: #0D0C1D;
+    
+}
