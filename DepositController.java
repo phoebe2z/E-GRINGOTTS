@@ -115,10 +115,10 @@ public class DepositController implements Initializable {
             return;
         }
         
-        double currentBalance = Database.getCurrentBalance(receiverId, "user_account", AccUserField.getText(), currency, "accountnumber");
-        double newBalance = currentBalance+Double.parseDouble(AmountField.getText());
+        double currentReceiverBalance = Database.getCurrentBalance(receiverId, "user_account", AccUserField.getText(), currency, "accountnumber");
+        double newReceiverBalance = currentReceiverBalance+Double.parseDouble(AmountField.getText());
         
-        Database.updateUserBalance(receiverId, "user_account", AccUserField.getText(), currency, newBalance, "accountnumber");
+        Database.updateUserBalance(receiverId, "user_account", AccUserField.getText(), currency, newReceiverBalance, "accountnumber");
         boolean success = Transaction.insertTransaction(senderId, receiverId, currency, amount, "Deposit", message);
         if (success) {
             showAlert(Alert.AlertType.INFORMATION, "Success", "Transaction recorded successfully.");

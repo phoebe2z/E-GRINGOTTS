@@ -16,6 +16,8 @@ public class SessionManager {
     private static ObjectProperty<Account> currentUser = new SimpleObjectProperty<>();
     private static ObjectProperty<Card> currentUserCreditCard = new SimpleObjectProperty<>();
     private static ObjectProperty<Card> currentUserDebitCard = new SimpleObjectProperty<>();
+    private static ObjectProperty<Transaction> currentAddedTransaction = new SimpleObjectProperty<>();
+    
     
     public static Account getCurrentUser() {
         return currentUser.get();
@@ -26,7 +28,11 @@ public class SessionManager {
     }
     
     public static Card getCurrentCreditCard(){
-        return currentUserDebitCard.get();
+        return currentUserCreditCard.get();
+    }
+    
+    public static Transaction getCurrentAddedTransaction(){
+        return currentAddedTransaction.get();
     }
 
     public static void setCurrentUser(Account account) {
@@ -39,8 +45,13 @@ public class SessionManager {
     }
     
     public static void setCurrentCreditCard(Card card){
-        currentUserDebitCard.set(card);
+        currentUserCreditCard.set(card);
         System.out.println("Setter Credit method being invoke");
+    }
+    
+    public static void setCurrentAddedTransaction(Transaction transaction){
+        currentAddedTransaction.set(transaction);
+        System.out.println("Setter transaction method being invoke");
     }
 
     public static ObjectProperty<Account> currentUserProperty() {
@@ -52,7 +63,11 @@ public class SessionManager {
     }
     
     public static ObjectProperty<Card> currentUserCreditCardProperty(){
-        return currentUserDebitCard;
+        return currentUserCreditCard;
+    }
+    
+    public static ObjectProperty<Transaction> currentAddedTransactionProperty(){
+        return currentAddedTransaction;
     }
     
     
@@ -60,8 +75,6 @@ public class SessionManager {
 
     public static void clearSession() {
         currentUser.set(null);
-        currentUserCreditCard.set(null);
-        currentUserDebitCard.set(null); 
     }
     
     

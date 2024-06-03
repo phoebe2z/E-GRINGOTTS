@@ -31,10 +31,17 @@ public class Account<T> {
     private StringProperty username = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
     private StringProperty safetyPin = new SimpleStringProperty();
+    private StringProperty accountNumber = new SimpleStringProperty();
 
     
-    public Account() {
+    public Account(int userId, String username) {
+        this.id = new SimpleIntegerProperty(userId);
+        this.username = new SimpleStringProperty(username);
 
+    }
+
+    public Account() {
+       
     }
  
     public void populateDataFromUserDB(int userId) {
@@ -131,6 +138,10 @@ public class Account<T> {
     public String getSafetyPin() {
         return safetyPin.get();
     }
+    
+    public String getAccountNumber(){
+        return accountNumber.get();
+    }
 
     public void setId(int id) {
         this.id.set(id);
@@ -203,6 +214,14 @@ public class Account<T> {
 
     public StringProperty safetyPinProperty() {
         return safetyPin;
+    }
+    
+    public void setAccountNumber(String accountNumber){
+        this.accountNumber.set(accountNumber);
+    }
+    
+    public StringProperty accountNumber(){
+        return accountNumber;
     }
 
     

@@ -58,10 +58,17 @@ public class UserMenuController implements Initializable{
 
     @FXML
     private Button TransactionButton;
+    
 
     @FXML
     void Card_Btn() {
+        Card creditCard = Card.populateCardDetails(Model.getInstance().getUserId(), "Credit Card");
+        SessionManager.setCurrentCreditCard(creditCard);
+        
+        Card debitCard = Card.populateCardDetails(Model.getInstance().getUserId(), "Debit Card");
+        SessionManager.setCurrentDebitCard(debitCard);
         Model.getInstance().getViewFactory().getUserSelectedMenuItem().set(UserMenuOption.CARDDETAIL);
+
     }
 
     @FXML
@@ -79,6 +86,7 @@ public class UserMenuController implements Initializable{
     void Logout_Btn() {
         Account account = SessionManager.getCurrentUser();
         account.clearUserData();
+        
         SessionManager.clearSession();
         Model.getInstance().getViewFactory().getUserSelectedMenuItem().set(UserMenuOption.LOGOUT);
         Stage stage = (Stage) MenuPanel.getScene().getWindow();

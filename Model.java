@@ -4,6 +4,8 @@
  */
 package egringgots;
 
+import javafx.beans.property.IntegerProperty;
+
 /**
  *
  * @author User
@@ -12,12 +14,10 @@ public class Model {
     private int userId;
     private static Model model;
     private final ViewFactory viewFactory;
-    private RegisterPageController registerPageController;
     
     
     private Model(){
         this.viewFactory = new ViewFactory();
-        registerPageController = new RegisterPageController();
     }
     
     public static synchronized Model getInstance(){
@@ -31,9 +31,6 @@ public class Model {
         return viewFactory;
     }
     
-    public RegisterPageController getRegisterPageController() {
-        return registerPageController;
-    }
     
     public int getUserId() {
         return userId;
@@ -42,6 +39,10 @@ public class Model {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+//    public IntegerProperty userIdProperty() {
+//        return userId;
+//    }
     
 
     

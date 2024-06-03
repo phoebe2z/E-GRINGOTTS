@@ -132,7 +132,7 @@ public class Transaction {
         this.transactionDate = transactionDate;
     }
     
-        public static boolean insertTransaction(int senderId, int receiverId,  String currency, double amount, String category, String message) {
+    public static boolean insertTransaction(int senderId, int receiverId,  String currency, double amount, String category, String message) {
         String insertQuery = "INSERT INTO transaction (transactionid, sender, receiver, currency, amount, date, category, additional) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(insertQuery)) {
@@ -147,8 +147,10 @@ public class Transaction {
             stmt.setString(7, category);
             stmt.setString(8, message);
 
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
+            int rows = stmt.executeUpdate();
+            Transaction transaction = new Transaction(generateTransactionId(), senderId, receiverId, amount, currency, message, category, Timestamp.valueOf(now));
+            SessionManager.setCurrentAddedTransaction(transaction);
+            return rows>0;
         } catch (SQLException e) {
             e.printStackTrace();
         }

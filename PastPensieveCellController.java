@@ -53,16 +53,6 @@ public class PastPensieveCellController implements Initializable {
     
     private Transaction transaction;
     
-    private PensievePast pensievePast;
-
-    public PastPensieveCellController() {
-        // No-argument constructor
-    }
-
-    public void setPensievePast(PensievePast pensievePast) {
-        this.pensievePast = pensievePast;
-    }
-        
 
     @FXML
     void View_Btn(ActionEvent event) {

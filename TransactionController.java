@@ -141,31 +141,6 @@ public class TransactionController implements Initializable {
     @FXML
     void Confirm_Btn(ActionEvent event) throws SQLException {
         storeTransaction();
-//        String from;
-//        double amount;
-//        String currency;
-//        String to;
-//        String category;
-//        String additionalNotes;
-//        
-//        if(checkIfEmpty()){
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Error Message");
-//            alert.setHeaderText(null);
-//            alert.setContentText("Please fill all compulsory fields!");
-//            alert.showAndWait();
-//        } else{
-//            
-//            //Database.checkBalance(id, from, currency, amount);
-//        
-//        
-//        
-//        
-//        
-//        }
-        
-        
-        
 
     }
 
@@ -173,6 +148,7 @@ public class TransactionController implements Initializable {
     void Reset_Btn(ActionEvent event) {
         FromChoiceBox.setValue(null);
         AmountField.clear();
+        ToField.clear();
         CurrencyChoiceBox.setValue(null);
         CategoryChoiceBox.setValue(null);
         AdditionalFields.clear();
@@ -226,13 +202,18 @@ public class TransactionController implements Initializable {
                 Database.updateUserBalance(userId, "user_card", cardNumber, currency, newBalance, "cardnumber");
             }
             
-            Database.updateUserBalance(receiverId, "user_account", ToField.getText(), currency, receiverNewBalance, currency);
-
-            // Store the transaction details in the database
+            Database.updateUserBalance(receiverId, "user_account", ToField.getText(), currency, receiverNewBalance, "accountnumber");
             
             Transaction.insertTransaction(userId, receiverId, currency, amount, category, additionalNotes);
 
-            // Show a success message
+            
+            FromChoiceBox.setValue(null);
+            AmountField.clear();
+            ToField.clear();
+            CurrencyChoiceBox.setValue(null);
+            CategoryChoiceBox.setValue(null);
+            AdditionalFields.clear();
+            
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
             alert.setHeaderText(null);
@@ -255,15 +236,6 @@ public class TransactionController implements Initializable {
         alert.showAndWait();
     } 
 }
-    
-    
-//    private boolean checkIfEmpty(){
-//        if(ToField.getText().isEmpty()||AmountField.getText().isEmpty()||FromChoiceBox.getItems().isEmpty()||CurrencyChoiceBox.getItems().isEmpty()||CategoryChoiceBox.getItems().isEmpty()){
-//            return true;
-//        } else{
-//            return false;
-//        }
-//    }
     
     private void loadCurrencies() {
         String sql = "SELECT currencyname FROM currency";

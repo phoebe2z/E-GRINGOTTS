@@ -201,6 +201,7 @@ public class EditCardButtonController implements Initializable {
 
             // Create a new Card object with the provided details
             Card creditCard = new Card(userId, cardNumber, cvv,  type, expDate);
+            SessionManager.setCurrentCreditCard(creditCard);
             System.out.println("Card details to save: " + creditCard);
 
             // Save or update the card details in the database
@@ -284,6 +285,7 @@ public class EditCardButtonController implements Initializable {
 
             // Create a new Card object with the provided details
             Card debitCard = new Card(userId, cardNumber, cvv,  type, expDate);
+            SessionManager.setCurrentDebitCard(debitCard);
             System.out.println("Card details to save: " + debitCard);
 
             // Save or update the card details in the database

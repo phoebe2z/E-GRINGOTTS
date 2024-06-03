@@ -26,8 +26,10 @@ public class Card {
     private StringProperty expiryDate;
     private StringProperty cardType;
     private IntegerProperty userId;
-     private IntegerProperty cVV;
+    private IntegerProperty cVV;
     private LongProperty cardNumber;
+    private StringProperty creditCardNumber;
+    private StringProperty debitCardNumber;
     
     
     public Card(int userId, long cardNumber, int cVV, String cardType, String expiryDate){
@@ -37,11 +39,6 @@ public class Card {
         this.cardType = new SimpleStringProperty(cardType);
        this.expiryDate = new SimpleStringProperty(expiryDate);  
     }
-    
-    public Card(){
-    
-    }
-     
 
     public int getcVV() {
         return cVV.get();
@@ -103,11 +100,10 @@ public class Card {
         return cardNumber;
     }
     
-    
-        public static Card getCardDetails(int userId, String type) {
+        public static Card populateCardDetails(int userId, String type) {
         Card card = null;
-        String query = "SELECT * FROM user_card WHERE usersid = ? AND cardtype = ?";
-
+        String query = "SELECT * FROM user_card WHERE usersId = ? AND cardtype = ?";
+        System.out.println("Populating card data from db");
         try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, userId);
@@ -126,8 +122,46 @@ public class Card {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+            System.out.println("returning: " + card);
         return card;
     }
+        
+        
+    public Card() {
+        this.creditCardNumber = new SimpleStringProperty("XXXXXXXXXXXXXXX");
+        this.debitCardNumber = new SimpleStringProperty("XXXXXXXXXXXXXXX");
+    }
+
+    public Card(String creditCardNumber, String debitCardNumber) {
+        this.creditCardNumber = new SimpleStringProperty(creditCardNumber);
+        this.debitCardNumber = new SimpleStringProperty(debitCardNumber);
+    }
+
+    public void setCreditCardNumber(String cardNumber) {
+        this.creditCardNumber.set(cardNumber);
+        
+    }
+
+    public void setDebitCardNumber(String cardNumber) {
+        this.debitCardNumber.set(cardNumber);
+    }
+    
+    public String getCreditCardNumber(){
+        return creditCardNumber.get();
+    }
+    
+    public String getDebitCardNumber(){
+        return debitCardNumber.get();
+    }
+    
+    public StringProperty creditCardNumberProperty(){
+        return creditCardNumber;
+    } 
+    
+    public StringProperty debitCardNumberProperty(){
+        return debitCardNumber;
+    } 
+    
+    
  
 }

@@ -6,20 +6,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane fx:id="BasePanel" prefHeight="400.0" prefWidth="420.0" styleClass="cardDetailBase" stylesheets="@../CSSClass/CardDetailPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringgots.CardDetailController">
    <children>
       <Button fx:id="EditCCButton" layoutX="77.0" layoutY="331.0" mnemonicParsing="false" onAction="#EditCC_Btn" prefHeight="39.0" prefWidth="127.0" styleClass="button_regular" text="Edit Credit Card" />
       <Button fx:id="EditDBButton" layoutX="216.0" layoutY="331.0" mnemonicParsing="false" onAction="#EditDB_Btn" prefHeight="39.0" prefWidth="127.0" styleClass="button_regular" text="Edit Debit Card" />
       <AnchorPane fx:id="CCCard" layoutX="68.0" layoutY="14.0" prefHeight="148.0" prefWidth="283.0" styleClass="cardDetail" stylesheets="@../CSSClass/CardDetailPage.css">
          <children>
-            <Text fx:id="CCNum" fill="WHITE" layoutX="35.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="numCard" text="1234 5678 9087 6543" textAlignment="CENTER" wrappingWidth="212.13671875" />
-            <Text fx:id="CCED" fill="WHITE" layoutX="75.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expiry Date:" />
-            <Text fx:id="CCCvv" fill="WHITE" layoutX="200.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV:" />
-            <Text fx:id="CCDate" fill="WHITE" layoutX="145.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12-04-2030" />
-            <Text fx:id="CCCvvNum" fill="WHITE" layoutX="235.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="234" />
-            <Rectangle fx:id="CCRec" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="28.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" styleClass="shapefill" width="272.0" />
-            <Text fx:id="CCTitle" fill="#5c5a5a" layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="cardDetailTitle" text="Credit Card" wrappingWidth="120.0">
+            <Text fx:id="CCNum" fill="WHITE" layoutX="7.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="numCard" text="XXXX XXXX XXXX XXXX" textAlignment="CENTER" wrappingWidth="151.47006225585938">
+               <font>
+                  <Font size="10.0" />
+               </font></Text>
+            <Text fx:id="CCED" fill="WHITE" layoutX="14.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expiry Date:" />
+            <Text fx:id="CCCvv" fill="WHITE" layoutX="200.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV:" />
+            <Text fx:id="CCDate" fill="WHITE" layoutX="74.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="mm/yy" />
+            <Text fx:id="CCCvvNum" fill="WHITE" layoutX="232.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="XXX" />
+            <Rectangle fx:id="CCRec" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="28.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" styleClass="shapefill" width="189.0" />
+            <Text fx:id="CCTitle" fill="#5c5a5a" layoutX="10.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="cardDetailTitle" text="Credit Card" wrappingWidth="120.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -28,17 +30,17 @@
       </AnchorPane>
       <AnchorPane fx:id="DCCard" layoutX="68.0" layoutY="176.0" prefHeight="148.0" prefWidth="283.0" styleClass="cardDetail" stylesheets="@../CSSClass/CardDetailPage.css">
          <children>
-            <Text fx:id="DCNum" fill="WHITE" layoutX="35.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="numCard" text="0987 6543 2123 4567" textAlignment="CENTER" wrappingWidth="212.13671875" />
-            <Text fx:id="DCCvv" fill="WHITE" layoutX="200.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV:" />
-            <Text fx:id="DCDate" fill="WHITE" layoutX="145.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12-04-2030" />
-            <Text fx:id="DCEd" fill="WHITE" layoutX="75.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expiry Date:" />
-            <Text fx:id="DCCvvNum" fill="WHITE" layoutX="235.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="156" />
-            <Rectangle fx:id="DCRec" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="28.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" styleClass="shapefill" width="272.0" />
-            <Text fx:id="DCTitle" fill="#5c5a5a" layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="cardDetailTitle" text="Debit Card" wrappingWidth="120.0">
+            <Text fx:id="DCCvv" fill="WHITE" layoutX="200.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV:" />
+            <Text fx:id="DCDate" fill="WHITE" layoutX="74.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="mm/yy" />
+            <Text fx:id="DCEd" fill="WHITE" layoutX="14.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expiry Date:" />
+            <Text fx:id="DCCvvNum" fill="WHITE" layoutX="232.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="XXX" />
+            <Rectangle fx:id="DCRec" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="28.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" styleClass="shapefill" width="189.0" />
+            <Text fx:id="DCTitle" fill="#5c5a5a" layoutX="10.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="cardDetailTitle" text="Debit Card" wrappingWidth="120.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
+            <Text fx:id="DCNum" fill="WHITE" layoutX="7.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="numCard" text="XXXX XXXX XXXX XXXX" textAlignment="CENTER" wrappingWidth="151.47006225585932" />
          </children>
       </AnchorPane>
    </children>

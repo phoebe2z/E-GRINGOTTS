@@ -6,21 +6,21 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="cell_container" prefHeight="40.0" prefWidth="460.0" styleClass="list-cell" stylesheets="@../CSSClass/PastPensieveCell.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringgots.PastPensieveCellController">
+<AnchorPane id="AnchorPane" fx:id="cell_container" prefHeight="40.0" prefWidth="493.0" styleClass="list-cell" stylesheets="@../CSSClass/PastPensieveCell.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringgots.PastPensieveCellController">
    <children>
-      <Label fx:id="DateLbl" layoutX="14.0" layoutY="12.0" prefHeight="17.0" prefWidth="90.0" styleClass="Basic_Date_text" text="01-03-2024" textFill="#8b8585" wrapText="true">
+      <Label fx:id="DateLbl" layoutY="12.0" prefHeight="17.0" prefWidth="115.0" styleClass="Basic_Date_text" text="01-03-2024" textFill="#8b8585" wrapText="true" AnchorPane.leftAnchor="5.0">
          <font>
             <Font size="10.0" />
          </font></Label>
-      <Label fx:id="ReceiverLbl" layoutX="129.0" layoutY="12.0" prefHeight="17.0" prefWidth="73.0" styleClass="Basic_text" text="John" wrapText="true">
+      <Label fx:id="ReceiverLbl" layoutX="154.0" layoutY="12.0" prefHeight="17.0" prefWidth="73.0" styleClass="Basic_text" text="John" wrapText="true">
          <font>
             <Font size="10.0" />
          </font></Label>
-      <Line fx:id="Line2" endX="100.0" layoutX="106.0" layoutY="30.0" startX="100.0" startY="-19.999990463256836" />
-      <Line fx:id="Line1" endX="100.0" layoutX="16.0" layoutY="30.0" startX="100.0" startY="-19.999990463256836" />
-      <Label fx:id="AmountLbl" layoutX="222.0" layoutY="12.0" prefHeight="17.0" prefWidth="84.0" styleClass="Basic_text" text="200000 k" wrapText="true" />
-      <Label fx:id="CategoryLbl" layoutX="334.0" layoutY="11.0" prefHeight="17.0" prefWidth="84.0" styleClass="Basic_text" text="Entertainment" wrapText="true" />
-      <Line fx:id="Line3" endX="100.0" layoutX="217.0" layoutY="29.0" startX="100.0" startY="-19.999990463256836" />
-      <Button fx:id="ViewBtn" layoutX="418.0" layoutY="7.0" mnemonicParsing="false" onAction="#View_Btn" styleClass="button_regular" text="&gt;" />
+      <Line fx:id="Line2" endX="100.0" layoutX="147.0" layoutY="30.0" startX="100.0" startY="-19.999990463256836" />
+      <Line fx:id="Line1" endX="100.0" layoutX="41.0" layoutY="30.0" startX="100.0" startY="-19.999990463256836" />
+      <Label fx:id="AmountLbl" layoutX="263.0" layoutY="12.0" prefHeight="17.0" prefWidth="99.0" styleClass="Basic_text" text="200000 k" wrapText="true" />
+      <Label fx:id="CategoryLbl" layoutX="382.0" layoutY="12.0" prefHeight="17.0" prefWidth="84.0" styleClass="Basic_text" text="Entertainment" wrapText="true" />
+      <Line fx:id="Line3" endX="100.0" layoutX="265.0" layoutY="30.0" startX="100.0" startY="-19.999990463256836" />
+      <Button fx:id="ViewBtn" layoutX="492.0" layoutY="7.0" mnemonicParsing="false" onAction="#View_Btn" styleClass="button_regular" text="&gt;" />
    </children>
 </AnchorPane>

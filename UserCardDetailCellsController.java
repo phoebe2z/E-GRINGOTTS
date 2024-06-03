@@ -4,7 +4,10 @@
  */
 package egringgots;
 
+import Database.Constant;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 
@@ -36,6 +39,11 @@ public class UserCardDetailCellsController implements Initializable {
 
     @FXML
     private Button SetBtn;
+    
+    private Card card;
+    
+    public UserCardDetailCellsController(){}
+    
 
     @FXML
     void Set_Btn(ActionEvent event) {
@@ -45,6 +53,16 @@ public class UserCardDetailCellsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }   
+    
+    public void setUserCardDetails(String username, String creditCard, String debitCard) {
+        NameLabel.setText(username);
+        CCLabel.setText(creditCard);
+        DCLabel.setText(debitCard);
+    }
+    
+
+    
+    
     
 }

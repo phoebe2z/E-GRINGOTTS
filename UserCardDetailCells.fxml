@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane id="AnchorPane" fx:id="Base" prefHeight="40.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringgots.UserCardDetailCellsController">
-    <stylesheets>
-        <URL value="@UserCardDetailCells.css" />
-    </stylesheets>
+<AnchorPane id="AnchorPane" fx:id="Base" prefHeight="42.0" prefWidth="398.0" stylesheets="@../CSSClass/UserCardDetailCells.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringgots.UserCardDetailCellsController">
    <children>
       <HBox fx:id="CellHbox" prefHeight="42.0" prefWidth="397.0">
          <children>
-            <Label fx:id="NameLabel" prefHeight="17.0" prefWidth="83.0" styleClass="cellText" stylesheets="@../CSSClass/UserCardDetailCells.css" text="George">
+            <Label fx:id="NameLabel" prefHeight="17.0" prefWidth="65.0" styleClass="cellText" stylesheets="@../CSSClass/UserCardDetailCells.css" text="George">
                <HBox.margin>
                   <Insets left="10.0" top="10.0" />
                </HBox.margin>
             </Label>
-            <Label fx:id="DCLabel" prefHeight="17.0" prefWidth="115.0" styleClass="cellText" stylesheets="@../CSSClass/UserCardDetailCells.css" text="1234 5678 9012 3456">
+            <Label fx:id="DCLabel" prefHeight="17.0" prefWidth="115.0" styleClass="cellText" stylesheets="@../CSSClass/UserCardDetailCells.css" text="XXXXXXXXXXXXXXXX">
                <HBox.margin>
                   <Insets top="10.0" />
                </HBox.margin>
             </Label>
-            <Label fx:id="CCLabel" layoutX="91.0" layoutY="20.0" styleClass="cellText" stylesheets="@../CSSClass/UserCardDetailCells.css" text="1234 5678 9012 3456">
-               <padding>
-                  <Insets left="10.0" top="10.0" />
-               </padding>
-            </Label>
-            <Button fx:id="SetBtn" mnemonicParsing="false" onAction="#Set_Btn" prefHeight="27.0" prefWidth="66.0" styleClass="button_regular" stylesheets="@../CSSClass/UserCardDetailCells.css" text="Set Limit">
+            <Label fx:id="CCLabel" layoutX="91.0" layoutY="20.0" prefHeight="17.0" prefWidth="115.0" styleClass="cellText" stylesheets="@../CSSClass/UserCardDetailCells.css" text="XXXXXXXXXXXXXXXX">
                <HBox.margin>
-                  <Insets left="7.0" top="5.0" />
+                  <Insets left="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+            <Button fx:id="SetBtn" mnemonicParsing="false" onAction="#Set_Btn" prefHeight="27.0" prefWidth="66.0" styleClass="button_regular" stylesheets="@../CSSClass/UserCardDetailCells.css" text="View">
+               <HBox.margin>
+                  <Insets left="10.0" top="5.0" />
                </HBox.margin>
             </Button>
          </children>

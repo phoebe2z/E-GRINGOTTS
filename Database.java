@@ -19,7 +19,11 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Database {
     
@@ -425,7 +429,116 @@ public class Database {
         throw new SQLException("Error retrieving receiver id.");
     }
     
+    public static ObservableList<String> loadCurrencyIntoList(){
+         String sql = "SELECT currencyname FROM currency";
+        ObservableList<String> currencies = FXCollections.observableArrayList();
+        
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                currencies.add(rs.getString("currencyname"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return currencies;
+    }
+    
+    
+    public static List<Account> fetchUsers() {
+        List<Account> users = new ArrayList<>();
+        String query = "SELECT usersid, username FROM users_information";
+
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                int userId = rs.getInt("usersid");
+                String username = rs.getString("username");
+                users.add(new Account(userId, username));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+    
+    public static Map<Integer, Card> fetchCardDetails() {
+        Map<Integer, Card> cardDetailsMap = new HashMap<>();
+        String query = "SELECT usersId, cardnumber, cardtype FROM user_card";
+
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                int userId = rs.getInt("usersId");
+                String cardNumber = rs.getString("cardnumber");
+                String cardType = rs.getString("cardtype");
+
+                cardDetailsMap.putIfAbsent(userId, new Card());
+                Card cardDetails = cardDetailsMap.get(userId);
+
+                if ("Credit Card".equals(cardType)) {
+                    cardDetails.setCreditCardNumber(cardNumber);
+                } else if ("Debit Card".equals(cardType)) {
+                    cardDetails.setDebitCardNumber(cardNumber);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return cardDetailsMap;
+    }
+    
+        public static Map<Integer, String> fetchAccountNumbers() {
+        Map<Integer, String> accountDetailsMap = new HashMap<>();
+        String query = "SELECT usersId, accountnumber FROM user_account";
+
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                int userId = rs.getInt("usersId");
+                String accountNumber = rs.getString("accountnumber");
+
+                accountDetailsMap.putIfAbsent(userId, accountNumber);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return accountDetailsMap;
+    }
+        
+            
+    public static Map<Integer, String> fetchProfileImages() {
+        Map<Integer, String> profileDetailsMap = new HashMap<>();
+        String query = "SELECT usersId, avatar FROM user_avatar";
+
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                int userId = rs.getInt("usersId");
+                String userPfp = rs.getString("avatar");
+
+                profileDetailsMap.putIfAbsent(userId, userPfp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return profileDetailsMap;
+    }
+    
+    
     
 }
-            
 

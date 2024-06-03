@@ -5,13 +5,12 @@
 package egringgots;
 
 import Database.Constant;
+import Database.Database;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,11 +36,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.sql.Timestamp;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+
+import javafx.scene.control.ListCell;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 
 
 /**
@@ -50,6 +54,9 @@ import javafx.scene.control.TableView;
  */
 public class DashboardController implements Initializable{
 
+    @FXML
+    private ListView<String> ListViewBalance;
+        
     @FXML
     private Text AccNumberText;
     
@@ -83,12 +90,6 @@ public class DashboardController implements Initializable{
 
     @FXML
     private VBox DetailVbox;
-    
-    @FXML
-    private TableColumn<?, ?> BalanceColumn;
-
-    @FXML
-    private TableView<?> BalanceTable;
 
     @FXML
     private HBox DividerHbox;
@@ -141,6 +142,7 @@ public class DashboardController implements Initializable{
     
 
     private List<Transaction> transactionList = new ArrayList<>();
+    
 
     @FXML
     void Clear_Btn(ActionEvent event) {
@@ -169,13 +171,9 @@ public class DashboardController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("11111111111111");
         int userId = Model.getInstance().getUserId();
-       
         try {
-            System.out.println("DDDDDDDDDDDD");
             String accountNumber = AccountNumber.getOrCreateAccountNumber(userId);
-             System.out.println("Initialize");
              if(accountNumber!=null){
             AccNumberText.setText(accountNumber);
              }
@@ -186,9 +184,18 @@ public class DashboardController implements Initializable{
         setDateLabel();
         loadTransactionsFromDatabase(Model.getInstance().getUserId());
         populateListView();
+        populateBalance();
         
-        
+        SessionManager.currentAddedTransactionProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                transactionList.add(newValue);
+            loadTransactionsFromDatabase(Model.getInstance().getUserId());
+            populateListView();
+            populateBalance();
+            }
+        });
     }
+    
     
     private void setDateLabel(){
         LocalDate currentDate = LocalDate.now();
@@ -225,6 +232,53 @@ public class DashboardController implements Initializable{
     }catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("load transaction for db");
+    }
+    
+    private void populateBalance(){
+        
+        ObservableList<String> currencies = Database.loadCurrencyIntoList();
+        int userId = Model.getInstance().getUserId();
+        
+        ListViewBalance.setCellFactory(param -> new ListCell<String>() {
+       
+        @Override
+        protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty || item == null) {
+                setText(null);
+            } else {
+                setText(item);
+                setFont(Font.font("System", FontWeight.BOLD, 12));
+                setTextAlignment(TextAlignment.CENTER);
+            }
+        }
+        
+    });
+        ListViewBalance.getItems().clear(); // Clear existing items
+        for (String currency : currencies) {
+            double balance = getBalanceForCurrency(currency, userId);
+            ListViewBalance.getItems().add(currency + ": " + balance);
+        }
+
+        System.out.println("Populated balances");
+    }
+    
+    private double getBalanceForCurrency(String currency, int userId) {
+        double balance = 0.0;
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement("SELECT " + currency + " FROM user_account WHERE usersId = ?");
+        ) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    balance = resultSet.getDouble(currency);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return balance;
     }
     
     
@@ -246,6 +300,8 @@ public class DashboardController implements Initializable{
         }
 
         PensieveList.setItems(observableList);
+        
+        System.out.println("Populating list view");
     }
 }
     

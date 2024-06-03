@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -18,10 +17,9 @@
       <AnchorPane fx:id="CardPanel" layoutX="11.0" layoutY="68.0" prefHeight="285.0" prefWidth="397.0">
          <children>
             <ListView fx:id="CardList" layoutY="35.0" prefHeight="252.0" prefWidth="397.0" />
-            <ScrollBar fx:id="CardScroll" layoutX="382.0" layoutY="35.0" orientation="VERTICAL" prefHeight="252.0" prefWidth="15.0" />
             <HBox fx:id="CardHbox" prefHeight="36.0" prefWidth="397.0">
                <children>
-                  <Label fx:id="NameLabel" prefHeight="17.0" prefWidth="60.0" text="Name">
+                  <Label fx:id="NameLabel" prefWidth="84.0" text="Username">
                      <HBox.margin>
                         <Insets left="10.0" top="10.0" />
                      </HBox.margin>
@@ -29,7 +27,7 @@
                         <Font name="Cooper Black" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="DebitLabel" prefWidth="115.0" text="Debit Card">
+                  <Label fx:id="DebitLabel" prefHeight="14.0" prefWidth="105.0" text="Debit Card">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
@@ -37,7 +35,7 @@
                         <Font name="Cooper Black" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="CreditLabel" layoutX="80.0" layoutY="20.0" prefWidth="115.0" text="Credit Card">
+                  <Label fx:id="CreditLabel" layoutX="80.0" layoutY="20.0" prefWidth="105.0" text="Credit Card">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
@@ -45,9 +43,9 @@
                         <Font name="Cooper Black" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="LimitLabel" layoutX="195.0" layoutY="20.0" text="Set CC Limit">
+                  <Label fx:id="LimitLabel" layoutX="195.0" layoutY="20.0" text="Card Detail">
                      <HBox.margin>
-                        <Insets left="5.0" top="10.0" />
+                        <Insets top="10.0" />
                      </HBox.margin>
                      <font>
                         <Font name="Cooper Black" size="12.0" />

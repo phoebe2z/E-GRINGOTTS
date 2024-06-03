@@ -93,7 +93,6 @@ public class CardDetailController implements Initializable {
     private static boolean editCreditCard;
     private static boolean editDebitCard;
     
-    
         @FXML
     void EditCC_Btn(ActionEvent event) {
         setEditCreditCard(true);
@@ -111,62 +110,84 @@ public class CardDetailController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        
-    }    
-    
-    public void invokeCardDetailController(){
-        System.out.println("Initialize method");
-        addCardCreditListener();
-        addCardDebitListener();
+            loadCCData(Model.getInstance().getUserId(), SessionManager.getCurrentCreditCard());
+            SessionManager.currentUserCreditCardProperty().addListener((obs, oldCC, newCC) -> {
+                if(newCC != null){
+                    loadCCData(Model.getInstance().getUserId(), newCC);
+                } else { unbindCCUI();
+                        setCCDefault();
+                }
+            });
 
+        loadDCData(Model.getInstance().getUserId(), SessionManager.getCurrentDebitCard());
+        SessionManager.currentUserDebitCardProperty().addListener((obs, oldDC, newDC) -> {
+            if(newDC != null){
+                loadDCData(Model.getInstance().getUserId(), newDC);
+            } else { 
+                unbindDCUI();
+                setDCDefault();
+            }     
+        });
     }
-    
-        private void addCardCreditListener() {
-    if(checkCardInDb(Model.getInstance().getUserId(), "Credit Card")){
-        Card creditCard = Card.getCardDetails(Model.getInstance().getUserId(), "Credit Card");
-        updateCreditCardUI(creditCard);
-    } else {
-        System.out.println("No data cc in database");
-    }
-    }
-        
-        private void addCardDebitListener(){
-            if(checkCardInDb(Model.getInstance().getUserId(), "Debit Card")){
-        Card debitCard = Card.getCardDetails(Model.getInstance().getUserId(), "Debit Card");
-        updateDebitCardUI(debitCard);
+      
+      private void setCCDefault(){
+            CCNum.setText("XXXX XXXX XXXX XXXX");
+            CCCvvNum.setText("XXX");
+            CCDate.setText("mm/yy");
+      }
+      
+      private void setDCDefault(){
+            DCNum.setText("XXXX XXXX XXXX XXXX");
+            DCCvvNum.setText("XXX");
+            DCDate.setText("mm/yy");
+      }
+      
+    private void loadCCData(int userId, Card card) {
+        if (checkCardInDb(userId, "Credit Card")) {
+            bindCreditCardUI(card);
         } else {
-        System.out.println("No data dc in database");
-    }
+            System.out.println("Unbinding cc data");
+            unbindCCUI(); // Unbind GUI components
+            setCCDefault(); // Set default values
         }
-     
-    public static void setEditCreditCard(boolean cond){
-        editCreditCard = cond;
     }
 
-    public static void setEditDebitCard(boolean cond){
-        editDebitCard = cond;
-    }
-        
-    public static boolean editCreditCard(){
-        return editCreditCard;
-    }
-    
-    public static boolean editDebitCard(){
-        return editDebitCard;
-    }
-    
-    private void updateCreditCardUI(Card creditCard) {
-        System.out.println("Updating cc");
-        CCNum.setText(formatCardNumber(creditCard.getCardNumber()));
-        CCCvvNum.setText(String.valueOf(creditCard.getcVV()));
-        CCDate.setText(creditCard.getExpiryDate());
+    private void loadDCData(int userId, Card card) {
+        if (checkCardInDb(userId, "Debit Card")) {
+            bindDebitCardUI(card);
+        } else {
+            System.out.println("Unbinding dc data");
+            unbindDCUI(); // Unbind GUI components
+            setDCDefault(); // Set default values
+        }
     }
 
-    private void updateDebitCardUI(Card debitCard) {
-        System.out.println("Updating Debit card");
-        DCNum.setText(formatCardNumber(debitCard.getCardNumber()));
-        DCCvvNum.setText(String.valueOf(debitCard.getcVV()));
-        DCDate.setText(debitCard.getExpiryDate());
+     private void bindCreditCardUI(Card card) {
+        if (card != null) {
+            CCNum.textProperty().bind(card.cardNumberProperty().asString());
+            CCCvvNum.textProperty().bind(card.cVVProperty().asString());
+            CCDate.textProperty().bind(card.expiryDateProperty());
+        }
+    }
+
+    private void bindDebitCardUI(Card card) {
+        if (card != null) {
+            DCNum.textProperty().bind(card.cardNumberProperty().asString());
+            DCCvvNum.textProperty().bind(card.cVVProperty().asString());
+            DCDate.textProperty().bind(card.expiryDateProperty());
+        }
+    }
+    
+    private void unbindDCUI(){
+        DCNum.textProperty().unbind();
+        DCCvvNum.textProperty().unbind();
+        DCDate.textProperty().unbind();
+    }
+    
+    private void unbindCCUI(){
+        CCNum.textProperty().unbind();
+        CCCvvNum.textProperty().unbind();
+        CCDate.textProperty().unbind();
     }
     
     private static boolean checkCardInDb(int userId, String type){
@@ -200,26 +221,21 @@ public class CardDetailController implements Initializable {
         return formatted.toString();
     }
     
-        public Card populateCardDataFromDB(int usersId, String typeCard){
-            Card card = new Card();
-            SessionManager.setCurrentCreditCard(card);
-            System.out.println("Populating card data from db");
-            String query = "SELECT * FROM user_card WHERE usersId = ? AND cardtype = ?";
-            try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
-            PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, usersId);
-            statement.setString(2, typeCard);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    card.setCardNumber(resultSet.getLong("cardnumber"));
-                    card.setcVV(resultSet.getInt("cvv"));
-                    card.setExpiryDate(resultSet.getString("expirydate"));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); 
-        }
-            return card;
+         
+    public static void setEditCreditCard(boolean cond){
+        editCreditCard = cond;
     }
+
+    public static void setEditDebitCard(boolean cond){
+        editDebitCard = cond;
+    }
+        
+    public static boolean editCreditCard(){
+        return editCreditCard;
+    }
+    
+    public static boolean editDebitCard(){
+        return editDebitCard;
+    }
+    
 }
