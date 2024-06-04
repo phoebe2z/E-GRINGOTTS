@@ -24,17 +24,8 @@ import Database.Constant;
 public class ViewUserCellController extends ListCell<UserAvatar> implements Initializable {
 
 
-    @FXML
+     @FXML
     private AnchorPane Base;
-    
-    @FXML
-    private AnchorPane Pane1;
-    
-    @FXML
-    private AnchorPane Pane2;
-    
-    @FXML
-    private AnchorPane Pane3;
 
     @FXML
     private HBox CellHbox;
@@ -46,20 +37,20 @@ public class ViewUserCellController extends ListCell<UserAvatar> implements Init
     private Label NameLabel;
 
     @FXML
-    private Label AccLabel;
+    private Label NoAccLabel;
 
     @FXML
-    private ImageView UserPfp;
+    public static ImageView UserPfp;
 
     @FXML
     private Button ViewBtn;
+    
     private Account user;
     private ViewUserController parentController;
     private FXMLLoader loader;
     private Map<Integer, String> userInfoName = new HashMap<>();
     private Map<Integer, Integer> userInfoNum = new HashMap<>();
 
-    
 
     @FXML
     void Delete_Btn(ActionEvent event) {
