@@ -23,6 +23,9 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import Database.Constant;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class ViewUserController implements Initializable {
 
@@ -53,11 +56,21 @@ public class ViewUserController implements Initializable {
 
     @FXML
     void Clear_Btn(ActionEvent event) {
-
+        SearchUser.clear();
+        ListViewUser.setItems(getUsers());
     }
 
     @FXML
-    void Search_Btn(ActionEvent event) {
+    void Search_Btn(ActionEvent event) {{
+        String searchKey = SearchUser.getText().toLowerCase();
+        ObservableList<UserAvatar> filteredUser = FXCollections.observableArrayList();
+        for (UserAvatar user : getUsers()) {
+            String userinfo = userInfo.get(user.getUserId()).toLowerCase();
+            if (userinfo.toLowerCase().contains(searchKey)) {
+                filteredUser.add(user);
+            }
+        }
+        ListViewUser.setItems(filteredUser);
 
     }
 
@@ -90,6 +103,75 @@ public class ViewUserController implements Initializable {
         }
         ListViewUser.setItems(listItems);
     }
-    
+
+    public static ObservableList<UserAvatar> getUsers() {
+        ObservableList<UserAvatar> users = FXCollections.observableArrayList();
+
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT usersid, username, mobilenum FROM users_information")) {
+
+            while (resultSet.next()) {
+                int usersid = resultSet.getInt("usersid");
+                String name = resultSet.getString("username");
+                int mobilenum = resultSet.getInt("mobilenum");
+                userInfo.put(usersid, name + " \t" + mobilenum);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT usersId, avatar FROM user_avatar")) {
+            while (resultSet.next()) {
+                String imagepath = resultSet.getString("avatar");
+                int userid = resultSet.getInt("usersId");
+                users.add(new UserAvatar(imagepath, userid));
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users.stream()
+                .sorted((u1, u2) -> userInfo.get(u1.getUserId()).compareToIgnoreCase(userInfo.get(u2.getUserId())))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
-    
+    public void deleteUser(UserAvatar user) {
+        int userId = user.getUserId();
+
+        try (Connection connection = DriverManager.getConnection(Constant.DB_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+             PreparedStatement deleteUserStmt = connection.prepareStatement("DELETE FROM users_information WHERE usersid = ?");
+             PreparedStatement deleteAvatarStmt = connection.prepareStatement("DELETE FROM user_avatar WHERE usersId = ?")) {
+
+            deleteUserStmt.setInt(1, userId);
+            deleteUserStmt.executeUpdate();
+
+            deleteAvatarStmt.setInt(1, userId);
+            deleteAvatarStmt.executeUpdate();
+
+            ListViewUser.getItems().remove(user);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void viewUserDetails(Account user) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXMLFiles/EditProfile.fxml"));
+            Parent root = loader.load();
+            EditProfileController controller = loader.getController();
+            if (user != null) {
+                controller.initData(user);
+            }// Pass the user data to the profile controller
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("User Profile");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
