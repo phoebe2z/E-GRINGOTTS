@@ -92,6 +92,9 @@ public class AdminMenuController implements Initializable {
 
     @FXML
     void Profile_Btn() {
+//        Account currentAccount = new Account<>();
+//        currentAccount.populateDataFromAdminDB(Model.getInstance().getUserId());
+//        SessionManager.setCurrentUser(currentAccount);
         Model.getInstance().getViewFactory().getAdminSelectedMenuItem().set(AdminMenuOption.PROFILE);
     }
 

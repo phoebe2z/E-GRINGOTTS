@@ -95,6 +95,9 @@ public class UserMenuController implements Initializable{
 
     @FXML
     void Profile_Btn() {
+//        Account currentAccount = new Account<>();
+//        currentAccount.populateDataFromUserDB(Model.getInstance().getUserId());
+//        SessionManager.setCurrentUser(currentAccount);
         Model.getInstance().getViewFactory().getUserSelectedMenuItem().set(UserMenuOption.PROFILE);
         
     }

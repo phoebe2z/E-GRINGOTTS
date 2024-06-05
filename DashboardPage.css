@@ -33,6 +33,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-spacing: center_left; 
 }
 
+
+.column.column-header{
+    -fx-background-color: #0D0C1D;
+}
+
 .right_container{
     -fx-background-color: #0D0C1D;
     -fx-padding: 5;
@@ -66,6 +71,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     
 }
 
+
 .button_regular_small {
     -fx-font-family: Arial Black;
     -fx-font-size: 10px;
@@ -86,5 +92,11 @@ pensieve_listview{
 .list_cell{
     -fx-background-color: #fff;
     -fx-padding: 15 0 15 0;
+}
+
+.filter-input-pane {
+    -fx-background-color: lightgrey;
+/*    -fx-padding: 10;
+    -fx-spacing: 10;*/
 }
 
