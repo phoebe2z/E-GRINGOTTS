@@ -157,7 +157,21 @@ public class EditProfileController implements Initializable {
     @FXML
     private Text UsernameText;
     
+    @FXML
+    private Button CloseBtn;
+    
+    @FXML
+    private Button ChangeUserTier;
+    
+    @FXML
+    void ChangeUserTier_Btn(ActionEvent event) {
 
+    }
+
+    @FXML
+    void Close_Btn(ActionEvent event) {
+
+    }
 
     @FXML
     void ChangePass_Btn(ActionEvent event) {
@@ -180,8 +194,40 @@ public class EditProfileController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if  (ViewUserCellController.isAdminViewing()){
+            CloseBtn.setVisible(true);
+            ChangeUserTier.setVisible(true);
+            EditBtn.setVisible(false);
+            ChangePassBtn.setVisible(false);
+            ChangeProfileBtn.setVisible(false);
+            
+            try {
+                displayViewUserMode(ViewUserCellController.getUserId());
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        } else{
+            CloseBtn.setVisible(false);
+            ChangeUserTier.setVisible(false);
+            EditBtn.setVisible(true);
+            ChangePassBtn.setVisible(true);
+            ChangeProfileBtn.setVisible(true);
+            
+            try {     
+                displayUserOrAdminInformation();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }  
+    }
+
+    
+    private void displayUserOrAdminInformation() throws FileNotFoundException{
         if(Model.getInstance().getViewFactory().getLoginAccountType() == AccountType.USER){
         bindUserData(SessionManager.getCurrentUser());
+        updateAdminProfilePicture(Model.getInstance().getUserId());
         SessionManager.currentUserProperty().addListener((obs, oldUser, newUser) -> {
             if (newUser != null) {
                 bindUserData(newUser);
@@ -194,6 +240,8 @@ public class EditProfileController implements Initializable {
                 clearUserData();
             }
         });} else {
+            bindUserData(SessionManager.getCurrentUser());
+            updateAdminProfilePicture(Model.getInstance().getUserId());
             SessionManager.currentUserProperty().addListener((obs, oldUser, newUser) -> {
             if (newUser != null) {
                 bindUserData(newUser);
@@ -205,9 +253,36 @@ public class EditProfileController implements Initializable {
             } else {
                 clearUserData();
             }
-        });}   
+        });} 
     }
+    
+    private void displayViewUserMode(int userId) throws FileNotFoundException{
+        Account currentAccount = new Account<>();
+        currentAccount.populateDataFromUserDB(userId);
+        SessionManager.setCurrentUser(currentAccount);
+        bindUserData(currentAccount);
+        updateUserProfilePicture(userId);
+        System.out.println("current user view id " + currentAccount.getId());
+                SessionManager.currentUserProperty().addListener((obs, oldUser, newUser) -> {
+            if (newUser != null) {
+                bindUserData(newUser);
+                try {
+                    updateUserProfilePicture(userId);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                clearUserData();
+            }
+                });
+    } 
 
+    
+    
+    
+    
+    
+    
     private void changeUserPfp(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(

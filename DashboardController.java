@@ -36,13 +36,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 
 import javafx.scene.control.ListCell;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
@@ -54,6 +60,10 @@ import javafx.scene.text.TextAlignment;
  */
 public class DashboardController implements Initializable{
 
+    
+    @FXML
+    private ChoiceBox<String> FilterChoiceBox;
+    
     @FXML
     private ListView<String> ListViewBalance;
         
@@ -68,15 +78,6 @@ public class DashboardController implements Initializable{
 
     @FXML
     private AnchorPane BasePanel;
-
-    @FXML
-    private Text C1Text;
-
-    @FXML
-    private Text C2Text;
-
-    @FXML
-    private Text C3Text;
 
 
     @FXML
@@ -129,7 +130,6 @@ public class DashboardController implements Initializable{
 
     @FXML
     private Button ViewBtn;
-    
 
     @FXML
     private AnchorPane firstCurrency;
@@ -140,18 +140,80 @@ public class DashboardController implements Initializable{
     @FXML
     private AnchorPane thirdCurrency;
     
+    @FXML
+    private AnchorPane FilterInputPane;
+    
 
     private List<Transaction> transactionList = new ArrayList<>();
     
 
     @FXML
     void Clear_Btn(ActionEvent event) {
+    // Check if the FilterChoiceBox is not null and it has a selection
+    if (FilterChoiceBox != null && FilterChoiceBox.getValue() != null) {
+        // Clear the selection of the FilterChoiceBox
+        FilterChoiceBox.getSelectionModel().clearSelection();
+    }
+    // Additionally, clear the filter inputs and repopulate the list
+    FilterInputPane.setVisible(false);
+    FilterInputPane.getChildren().clear();
+    loadTransactionsFromDatabase(Model.getInstance().getUserId());
+    populateListView();
 
     }
 
     @FXML
     void Filter_Btn(ActionEvent event) {
+        String selectedFilter = (String) FilterChoiceBox.getValue();
+        ObservableList<Transaction> filteredTransactions = FXCollections.observableArrayList(transactionList);
 
+        switch (selectedFilter) {
+            case "Threshold":
+                TextField minField = (TextField) ((VBox) FilterInputPane.getChildren().get(0)).getChildren().get(0);
+                TextField maxField = (TextField) ((VBox) FilterInputPane.getChildren().get(0)).getChildren().get(1);
+                double minValue = Double.parseDouble(minField.getText());
+                double maxValue = Double.parseDouble(maxField.getText());
+                filteredTransactions = filteredTransactions.filtered(t -> t.getAmount() >= minValue && t.getAmount() <= maxValue);
+                break;
+            case "Date":
+                DatePicker startDatePicker = (DatePicker) ((VBox) FilterInputPane.getChildren().get(0)).getChildren().get(0);
+                DatePicker endDatePicker = (DatePicker) ((VBox) FilterInputPane.getChildren().get(0)).getChildren().get(1);
+                LocalDate startDate = startDatePicker.getValue();
+                LocalDate endDate = endDatePicker.getValue();
+                filteredTransactions = filteredTransactions.filtered(t -> {
+                LocalDate transactionLocalDate = t.getTransactionDate().toLocalDate();
+                return !transactionLocalDate.isBefore(startDate) && !transactionLocalDate.isAfter(endDate);
+            });
+                break;
+            case "Category":
+                ChoiceBox<String> categoryChoiceBox = (ChoiceBox<String>) ((VBox) FilterInputPane.getChildren().get(0)).getChildren().get(0);
+                String selectedCategory = categoryChoiceBox.getValue();
+                filteredTransactions = filteredTransactions.filtered(t -> t.getCategory().equals(selectedCategory));
+                break;
+        }
+        populateFilteredListView(filteredTransactions);
+        FilterInputPane.setVisible(false);
+
+    }
+    
+    private void populateFilteredListView(ObservableList<Transaction> filteredTransactions) {
+        ObservableList<AnchorPane> observableList = FXCollections.observableArrayList();
+
+        for (Transaction transaction : filteredTransactions) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXMLFiles/PastPensieveCell.fxml"));
+                AnchorPane cell = loader.load();
+
+                PastPensieveCellController controller = loader.getController();
+                controller.setTransaction(transaction);
+
+                observableList.add(cell);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        PensieveList.setItems(observableList);
     }
 
     @FXML
@@ -168,6 +230,61 @@ public class DashboardController implements Initializable{
     void ViewReceipt_Btn(ActionEvent event) {
 
     }
+    
+    @FXML
+    void handleFilterChoiceBox(ActionEvent event){
+    if (FilterChoiceBox != null) {
+        String selectedFilter = FilterChoiceBox.getValue();
+        if (selectedFilter != null) {
+            FilterInputPane.getChildren().clear();
+            switch (selectedFilter) {
+                case "Threshold":
+                    addThresholdInputs();
+                    break;
+                case "Date":
+                    addDateInputs();
+                    break;
+                case "Category":
+                    addCategoryInputs();
+                    break;
+            }
+            // Make the FilterInputPane visible after selecting a filter
+            FilterInputPane.setVisible(true);
+        }
+    }
+    }
+    
+    private void addThresholdInputs() {
+        TextField minField = new TextField();
+        minField.setPromptText("Min Value");
+
+        TextField maxField = new TextField();
+        maxField.setPromptText("Max Value");
+
+        VBox vbox = new VBox(10, minField, maxField);
+         vbox.setPadding(new Insets(10, 0, 0, 0));
+        FilterInputPane.getChildren().add(vbox);
+    }
+    
+    private void addDateInputs() {
+        DatePicker startDatePicker = new DatePicker();
+        DatePicker endDatePicker = new DatePicker();
+
+        VBox vbox = new VBox(10, startDatePicker, endDatePicker);
+        vbox.setPadding(new Insets(10, 0, 0, 0));
+        FilterInputPane.getChildren().add(vbox);
+    }
+
+    private void addCategoryInputs() {
+        ChoiceBox<String> categoryChoiceBox = new ChoiceBox<>();
+        categoryChoiceBox.setItems(FXCollections.observableArrayList("Leisure Luxe", "Tasty Treats", "Enigmatic Essentials", "Utility Utopia", "Mystic Magic","Assorted Awe"));
+
+        VBox vbox = new VBox(10, categoryChoiceBox);
+        vbox.setPadding(new Insets(10, 0, 0, 0));
+        FilterInputPane.getChildren().add(vbox);
+    }
+    
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -181,10 +298,13 @@ public class DashboardController implements Initializable{
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        
         setDateLabel();
         loadTransactionsFromDatabase(Model.getInstance().getUserId());
         populateListView();
         populateBalance();
+        FilterInputPane.setVisible(false);
+        FilterChoiceBox.setItems(FXCollections.observableArrayList("Threshold", "Date", "Category"));
         
         SessionManager.currentAddedTransactionProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -222,7 +342,8 @@ public class DashboardController implements Initializable{
                     String currency = rs.getString("currency");
                     String message = rs.getString("additional");
                     String category = rs.getString("category");
-                    Timestamp transactionDate = rs.getTimestamp("date");
+                    Timestamp timestamp = rs.getTimestamp("date");
+                    LocalDateTime transactionDate = timestamp.toLocalDateTime();
 
                     Transaction transaction = new Transaction(transactionId, senderId, receiverId, amount, currency, message, category, transactionDate);
                     transactionList.add(transaction);
@@ -284,7 +405,8 @@ public class DashboardController implements Initializable{
     
     private void populateListView() {
         ObservableList<AnchorPane> observableList = FXCollections.observableArrayList();
-
+        transactionList.sort(Comparator.comparing(Transaction::getTransactionDate).reversed());
+        
         for (Transaction transaction : transactionList) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXMLFiles/PastPensieveCell.fxml"));

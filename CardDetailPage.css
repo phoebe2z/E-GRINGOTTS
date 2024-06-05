@@ -22,14 +22,14 @@
     -fx-alignment: CENTER_LEFT;
     -fx-font-family: Arial Black;
     -fx-text-fill: #ffffff;
-    -fx-font-size: 12px;
+    -fx-font-size: 10px;
 }
 
 .numCard{
     -fx-alignment: CENTER;
     -fx-font-family: Arial Black;
     -fx-text-fill: #ffffff;
-    -fx-font-size: 16px;
+    -fx-font-size: 12px;
 }
 
 .shapefill {  
@@ -45,7 +45,7 @@
     -fx-font-family: Arial Black;
     -fx-font-weight: bold;
     -fx-text-fill: #000000;
-    -fx-font-size: 18px;
+    -fx-font-size: 14px;
 }
 
 .button_regular {

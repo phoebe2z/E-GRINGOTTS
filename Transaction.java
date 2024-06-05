@@ -25,9 +25,9 @@ public class Transaction {
     private final StringProperty currency;
     private final StringProperty message;
     private final StringProperty category;
-    private Date transactionDate;
+    private LocalDateTime transactionDate;
 
-    public Transaction(String transactionId, int senderId, int receiverId, double amount, String currency, String message, String category, Date transactionDate) {
+    public Transaction(String transactionId, int senderId, int receiverId, double amount, String currency, String message, String category, LocalDateTime transactionDate) {
         this.transactionId = new SimpleStringProperty(transactionId);
         this.senderId = new SimpleIntegerProperty(senderId);
         this.receiverId = new SimpleIntegerProperty(receiverId);
@@ -124,11 +124,11 @@ public class Transaction {
     }
         
 
-    public Date getTransactionDate() {
+    public LocalDateTime getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(LocalDateTime transactionDate) {
         this.transactionDate = transactionDate;
     }
     
@@ -148,7 +148,7 @@ public class Transaction {
             stmt.setString(8, message);
 
             int rows = stmt.executeUpdate();
-            Transaction transaction = new Transaction(generateTransactionId(), senderId, receiverId, amount, currency, message, category, Timestamp.valueOf(now));
+            Transaction transaction = new Transaction(generateTransactionId(), senderId, receiverId, amount, currency, message, category, now);
             SessionManager.setCurrentAddedTransaction(transaction);
             return rows>0;
         } catch (SQLException e) {
